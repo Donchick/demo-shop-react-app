@@ -1,12 +1,10 @@
-import authService from '../services/auth';
+import authService from '../services/authentication';
 import { USER_LOGGED_IN, LOGIN_FAILED } from '../constants/user-actions';
-import { createBrowserHistory } from 'history';
-
-const history = createBrowserHistory();
+import { history } from '../helpers/history';
 
 const loginSuccess = user => ({
     type: USER_LOGGED_IN,
-    userName: user.login
+    user: user
 });
 
 const loginFailed = error => ({
@@ -19,5 +17,5 @@ export const login = (user) => dispatch => {
         .then(loginSuccess)
         .catch(loginFailed)
         .then(dispatch)
-        .then(() => history.push('/'))
-}
+        .then(() => history.push('/'));
+};
