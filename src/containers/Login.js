@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../actions/authentication';
+import PropTypes from 'prop-types';
 
 class Login extends Component {
     constructor () {
@@ -31,6 +32,10 @@ class Login extends Component {
             <button onClick={this.handleLogin.bind(this)}>Login</button>
         </div>;
     }
+};
+
+Login.propTypes = {
+    login: PropTypes.func.isRequired
 };
 
 export default connect(
