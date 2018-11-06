@@ -4,16 +4,15 @@ import Login from './Login';
 import { Router, Route } from 'react-router';
 import LoginGuardRoute from '../components/login-guard-route';
 import {history} from "../helpers/history";
+import CommonLayout from '../components/styled/common-layout';
 
 const App = () => {
-    return <div className="container">
-        <Router history={history}>
-            <div>
+    return <Router history={history}>
+            <CommonLayout>
                 <LoginGuardRoute exact path="/" component={Home} />
                 <Route path="/login" component={Login} />
-            </div>
+            </CommonLayout>
         </Router>
-    </div>
 };
 
 export default App;
