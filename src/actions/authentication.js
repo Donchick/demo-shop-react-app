@@ -1,5 +1,5 @@
 import authService from '../services/authentication';
-import { USER_LOGGED_IN, LOGIN_FAILED } from '../constants/user-actions';
+import { USER_LOGGED_IN, LOGIN_FAILED } from '../constants/auth-actions';
 import { history } from '../helpers/history';
 
 const loginSuccess = user => ({

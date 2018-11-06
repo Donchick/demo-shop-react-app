@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import userName from './auth';
+import auth from './auth';
+import products from './products';
 
 const demoShopStoreApp = combineReducers({
-    userName
+    auth,
+    products
 });
 
 export default demoShopStoreApp;

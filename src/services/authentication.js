@@ -1,5 +1,3 @@
-let isUserLoggedIn = false;
-
 const _getUser = function (username) {
     const sessionToken = localStorage.getItem('session-token');
     return fetch(`/api/users?login=${username}`, {
@@ -67,7 +65,6 @@ export default {
             if (sessionToken) {
                 localStorage.setItem('sessionToken', null);
                 localStorage.setItem('user', null);
-                isUserLoggedIn = false;
             }
 
             return res.json();

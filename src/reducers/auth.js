@@ -1,6 +1,6 @@
-import { USER_LOGGED_IN, LOGIN_FAILED, USER_RECEIVED, ROLE_RECEIVED } from '../constants/user-actions';
+import { USER_LOGGED_IN, LOGIN_FAILED } from '../constants/auth-actions';
 
-const user = (state = [], action) => {
+const auth = (state = [], action) => {
     switch (action.type) {
         case USER_LOGGED_IN:
             return action.user;
@@ -13,4 +13,4 @@ const user = (state = [], action) => {
     }
 };
 
-export default user;
+export default auth;

@@ -1,9 +1,45 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { getProducts } from "../actions/products";
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const Home = () => {
-    return <div>
-        <h1>Welcome to demo shop!</h1>
-    </div>
+const mapStateToProps = (state) => ({
+    products: state.products
+});
+
+class Home extends Component {
+    constructor(props) {
+        super(...arguments);
+        this.state = {
+            products: props.products || []
+        };
+    }
+
+    componentDidMount() {
+        this.props.getProducts();
+    }
+
+    componentWillReceiveProps(nextState) {
+        if (nextState.products) {
+            this.setState({products: nextState.products});
+        }
+    }
+
+    render() {
+        return <div>
+            <h1>Welcome to DemoShop</h1>
+            <ul>
+            {this.state.products.map((product) => {
+                return <li key={product.id}>{product.name}</li>
+            })}
+            </ul>
+        </div>
+    }
+}
+
+Home.propTypes = {
+    products: PropTypes.array.isRequired,
+    getProducts: PropTypes.func.isRequired
 };
 
-export default Home;
+export default connect(mapStateToProps, {getProducts})(Home);
