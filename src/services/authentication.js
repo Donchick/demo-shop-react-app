@@ -50,5 +50,11 @@ export default {
 
             return res.json();
         });
+    },
+
+    getUser: () => {
+        const userJson =  localStorage.getItem('user');
+
+        return userJson && JSON.parse(userJson);
     }
 }

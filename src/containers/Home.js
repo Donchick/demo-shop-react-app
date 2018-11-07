@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getProducts } from "../actions/products";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import userService from '../services/authentication';
 
 const mapStateToProps = (state) => ({
     products: state.products
@@ -11,7 +12,8 @@ class Home extends Component {
     constructor(props) {
         super(...arguments);
         this.state = {
-            products: props.products || []
+            products: props.products || [],
+            user: userService.getUser()
         };
     }
 
@@ -27,7 +29,7 @@ class Home extends Component {
 
     render() {
         return <div>
-            <h1>Welcome to DemoShop</h1>
+            <h1>{this.state.user.login}, welcome to DemoShop</h1>
             <ul>
             {this.state.products.map((product) => {
                 return <li key={product.id}>{product.name}</li>
