@@ -106,13 +106,24 @@ class Login extends Component {
                     { this.state.loginFailed ? <ErrorMessage global>Wrong login or password!</ErrorMessage> : '' }
                     <InputBlock>
                         <p>Your Login:</p>
-                        { errors['userName'] && shouldMarkError('userName') ? <ErrorMessage>{errors['userName']}</ErrorMessage> : '' }
-                        <UserNameInput invalid={shouldMarkError('userName')} onBlur={this.handleBlur.bind(this)} name='userName' value={this.state.userName} onChange={this.handleChange.bind(this)}/>
+                        { errors['userName'] && shouldMarkError('userName') ?
+                            <ErrorMessage>{errors['userName']}</ErrorMessage> : '' }
+                        <UserNameInput invalid={shouldMarkError('userName')}
+                                       onBlur={this.handleBlur.bind(this)}
+                                       name='userName'
+                                       value={this.state.userName}
+                                       onChange={this.handleChange.bind(this)}/>
                     </InputBlock>
                     <InputBlock>
                         <p>Your Password:</p>
-                        { errors['password'] && shouldMarkError('password') ? <ErrorMessage>{errors['password']}</ErrorMessage> : '' }
-                        <PasswordInput invalid={shouldMarkError('password')} onBlur={this.handleBlur.bind(this)} type='password' name='password' value={this.state.password} onChange={this.handleChange.bind(this)}/>
+                        { errors['password'] && shouldMarkError('password') ?
+                            <ErrorMessage>{errors['password']}</ErrorMessage> : '' }
+                        <PasswordInput invalid={shouldMarkError('password')}
+                                       onBlur={this.handleBlur.bind(this)}
+                                       type='password'
+                                       name='password'
+                                       value={this.state.password}
+                                       onChange={this.handleChange.bind(this)}/>
                     </InputBlock>
                     <LoginButton disabled={isDisabled}>Submit</LoginButton>
                 </LoginForm>
