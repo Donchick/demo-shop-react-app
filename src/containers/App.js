@@ -4,7 +4,7 @@ import Login from './Login';
 import { Router, Route } from 'react-router';
 import LoginGuardRoute from '../components/login-guard-route';
 import {history} from "../helpers/history";
-import CommonLayout from '../components/styled/common-layout';
+import { CommonLayout } from '../components/styled/common-layout';
 
 const App = () => {
     return <Router history={history}>
