@@ -15,7 +15,11 @@ import {
     ErrorMessage
 } from '../components/styled/login-page';
 
-
+const mapStateToProps = (state) => {
+    return {
+        loginFailed: state.auth.loginFailed || false
+    };
+};
 
 function validate(userName, password) {
     return {
@@ -39,16 +43,25 @@ class Login extends Component {
             errors: {
                 userName: null,
                 password: null
-            }
+            },
+            loginFailed: this.props.loginFailed || false
         };
+    }
+
+    componentWillReceiveProps(nextState) {
+        if (nextState.loginFailed) {
+            this.setState({loginFailed: nextState.loginFailed});
+        }
     }
 
     handleLoginFormSubmit (e) {
         e.preventDefault();
+        e.stopPropagation();
         this.props.login({
             login: this.state.userName,
             password: this.state.password
-        })
+        });
+        return false;
     }
 
     handleBlur(e) {
@@ -58,7 +71,18 @@ class Login extends Component {
         );
     }
 
+    clearErrors (field) {
+        this.setState({
+            loginFailed: false,
+            errors: {
+                [field]: null
+            }
+        });
+
+    }
+
     handleChange(e) {
+        this.clearErrors(e.target.name);
         this.setState({ [e.target.name]: e.target.value });
     }
 
@@ -79,6 +103,7 @@ class Login extends Component {
                     Login to "Demo Shop"
                 </LoginBlockHeader>
                 <LoginForm onSubmit={this.handleLoginFormSubmit.bind(this)}>
+                    { this.state.loginFailed ? <ErrorMessage global>Wrong login or password!</ErrorMessage> : '' }
                     <InputBlock>
                         <p>Your Login:</p>
                         { errors['userName'] && shouldMarkError('userName') ? <ErrorMessage>{errors['userName']}</ErrorMessage> : '' }
@@ -97,9 +122,10 @@ class Login extends Component {
 };
 
 Login.propTypes = {
+    loginFailed: PropTypes.bool.isRequired,
     login: PropTypes.func.isRequired
 };
 
 export default connect(
-    null, { login }
+    mapStateToProps, { login }
 )(Login);

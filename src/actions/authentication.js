@@ -14,8 +14,11 @@ const loginFailed = error => ({
 
 export const login = (user) => dispatch => {
     return authService.login(user)
-        .then(loginSuccess)
-        .catch(loginFailed)
-        .then(dispatch)
-        .then(() => history.push('/'));
+        .then((user) => {
+            dispatch(loginSuccess(user));
+            history.push('/');
+        })
+        .catch((error) => {
+            dispatch(loginFailed(error));
+        });
 };

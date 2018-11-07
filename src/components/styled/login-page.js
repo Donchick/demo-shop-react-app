@@ -74,8 +74,9 @@ export const LoginButton = styled(Button)`
 `;
 
 export const ErrorMessage = styled.p`
-  font-size: 16px;
-  padding: 10px 10px 0;
-  display: block;
-  color: #da1d1d;
+    text-align: ${(props) => props.global ? 'center' : 'left'};
+    font-size: 16px;
+    padding: 10px 10px 0;
+    display: block;
+    color: #da1d1d;
 `;
