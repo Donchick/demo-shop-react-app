@@ -123,6 +123,7 @@ class Login extends Component {
                                        type='password'
                                        name='password'
                                        value={this.state.password}
+
                                        onChange={this.handleChange.bind(this)}/>
                     </InputBlock>
                     <LoginButton disabled={isDisabled}>Submit</LoginButton>
