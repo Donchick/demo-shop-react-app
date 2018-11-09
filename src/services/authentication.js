@@ -44,11 +44,11 @@ export default {
         return api.post('logout', user)
             .then(res => {
             if (sessionToken) {
-                localStorage.setItem('sessionToken', null);
-                localStorage.setItem('user', null);
+                localStorage.removeItem('sessionToken');
+                localStorage.removeItem('user');
             }
 
-            return res.json();
+            return true;
         });
     },
 

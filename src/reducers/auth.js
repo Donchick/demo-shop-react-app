@@ -1,4 +1,4 @@
-import { USER_LOGGED_IN, LOGIN_FAILED } from '../constants/auth-actions';
+import { USER_LOGGED_IN, LOGIN_FAILED, USER_LOGGED_OUT, LOGGED_OUT_FAILED } from '../constants/auth-actions';
 
 const auth = (state = [], action) => {
     switch (action.type) {
@@ -8,6 +8,10 @@ const auth = (state = [], action) => {
         case LOGIN_FAILED:
             return { loginFailed: true };
 
+        case USER_LOGGED_OUT:
+            return { user: null };
+
+        case LOGGED_OUT_FAILED:
         default:
             return state
     }

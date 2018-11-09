@@ -3,8 +3,12 @@ import { CommonLayout, Input} from "./common-layout";
 import Button from "./button";
 
 export const LoginLayout = styled(CommonLayout)`
+  height: 101%;
   filter: blur(2px);
   background-image: url(${process.env.PUBLIC_URL + '/assets/images/background.png'});
+  position: absolute;
+  left: 0;
+  top: -2px;
 `;
 
 export const LoginBlock = styled.div`

@@ -1,5 +1,5 @@
 import authService from '../services/authentication';
-import { USER_LOGGED_IN, LOGIN_FAILED } from '../constants/auth-actions';
+import { USER_LOGGED_IN, LOGIN_FAILED, LOGGED_OUT_FAILED } from '../constants/auth-actions';
 import { history } from '../helpers/history';
 
 const loginSuccess = user => ({
@@ -12,6 +12,11 @@ const loginFailed = error => ({
     error
 });
 
+const logoutFailed = error => ({
+    type: LOGGED_OUT_FAILED,
+    error
+});
+
 export const login = (user) => dispatch => {
     return authService.login(user)
         .then((user) => {
@@ -20,5 +25,13 @@ export const login = (user) => dispatch => {
         })
         .catch((error) => {
             dispatch(loginFailed(error));
+        });
+};
+
+export const logout = (user) => dispatch => {
+    return authService.logout(user)
+        .then(() => history.push('/'))
+        .catch((error) => {
+            dispatch(logoutFailed(error));
         });
 };
