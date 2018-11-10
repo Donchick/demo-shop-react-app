@@ -29,4 +29,14 @@ export default {
             }
         });
     },
+
+    delete(path, id) {
+        const sessionToken = getSessionToken();
+        return fetch(`/api/${path}/${id}`, {
+            method: 'delete',
+            headers: {
+                "session-token": sessionToken
+            }
+        });
+    }
 }

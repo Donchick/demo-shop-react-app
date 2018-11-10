@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../actions/authentication';
 import PropTypes from 'prop-types';
-import { CommonLayout } from '../components/styled/common-layout';
 import {
     LoginLayout,
     LoginBlock,

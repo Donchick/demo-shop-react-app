@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ProductsList } from '../components/styled/products-manager';
-import { getProducts } from "../actions/products";
+import { getProducts, removeProduct } from "../actions/products";
 import ProductCard from '../components/product-card';
 import connect from "react-redux/es/connect/connect";
 import PropTypes from 'prop-types';
@@ -33,7 +33,7 @@ class ProductsManager extends Component {
     }
 
     handleDeleteProductClick (productId) {
-        console.log('delete product ' + productId);
+        this.props.removeProduct(productId);
     }
 
     render () {
@@ -52,7 +52,8 @@ class ProductsManager extends Component {
 
 ProductsManager.propTypes = {
     products: PropTypes.array.isRequired,
-    getProducts: PropTypes.func.isRequired
+    getProducts: PropTypes.func.isRequired,
+    removeProduct: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, {getProducts})(ProductsManager);
+export default connect(mapStateToProps, {getProducts, removeProduct})(ProductsManager);
