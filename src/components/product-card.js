@@ -19,7 +19,7 @@ const ProductCard = (props) => {
             <ProductImage src={props.product.image}/>
             <ProductRatingContainer>
                 {[1,2,3,4,5].map((score) =>
-                    props.product.rating >= score ? <GoldRatingStar/> : <RatingStar/>
+                    props.product.rating >= score ? <GoldRatingStar key={score}/> : <RatingStar key={score}/>
                 )}
             </ProductRatingContainer>
         </ProductImageContainer>
@@ -27,14 +27,16 @@ const ProductCard = (props) => {
             <ProductName>{props.product.name}</ProductName>
             <ProductDescription>{props.product.description}</ProductDescription>
             <ProductPrice><CurrencySymbol>$</CurrencySymbol>{props.product.cost}</ProductPrice>
-            <ProductCardButton>Show More</ProductCardButton>
-            <ProductCardButton secondary left>Delete</ProductCardButton>
+            <ProductCardButton onClick={props.showDetails}>Show More</ProductCardButton>
+            <ProductCardButton secondary left onClick={props.deleteProduct}>Delete</ProductCardButton>
         </ProductDetailsContainer>
     </ProductCardElement>
 }
 
 ProductCard.propTypes = {
-    product: PropTypes.object.isRequired
+    product: PropTypes.object.isRequired,
+    showDetails: PropTypes.func.isRequired,
+    deleteProduct: PropTypes.func.isRequired,
 };
 
 export default ProductCard

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Home from './Home';
+import ProductsManager from './ProductsManager';
 import Login from './Login';
 import { Router, Route } from 'react-router';
 import LoginGuardRoute from '../components/login-guard-route';
@@ -53,7 +53,7 @@ class App extends Component {
                     </HeaderMenu>
                 </Header>
                 <Main>
-                    <LoginGuardRoute exact path="/" component={Home} />
+                    <LoginGuardRoute exact path="/" component={ProductsManager} />
                     <Route path="/login" component={Login} />
                 </Main>
                 <Footer>Copyright “Demo Shop”, 2017</Footer>
