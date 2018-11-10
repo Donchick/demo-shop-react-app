@@ -1,8 +1,13 @@
 import styled  from 'styled-components';
 
 export const CommonLayout = styled.div`
-    width: 100%;
-    height: 100%;
+  margin: 0;
+  position: relative;
+  font-family: PT Sans;
+  display: flex;
+  flex-flow: column wrap;
+  min-height: 100%;
+  background-image: url(${process.env.PUBLIC_URL + '/assets/images/background.png'});
 `;
 
 export const Input = styled.input`

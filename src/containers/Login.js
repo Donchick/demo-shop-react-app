@@ -96,7 +96,7 @@ class Login extends Component {
             return hasError && touched;
         };
 
-        return <CommonLayout>
+        return <div>
             <LoginLayout/>
             <LoginBlock>
                 <LoginBlockHeader>
@@ -128,7 +128,7 @@ class Login extends Component {
                     <LoginButton disabled={isDisabled}>Submit</LoginButton>
                 </LoginForm>
             </LoginBlock>
-        </CommonLayout>;
+        </div>;
     }
 };
 

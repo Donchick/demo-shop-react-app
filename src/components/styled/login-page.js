@@ -2,17 +2,19 @@ import styled from "styled-components";
 import { CommonLayout, Input} from "./common-layout";
 import Button from "./button";
 
-export const LoginLayout = styled(CommonLayout)`
+export const LoginLayout = styled.div`
   height: 101%;
+  width: 100%;
   filter: blur(2px);
   background-image: url(${process.env.PUBLIC_URL + '/assets/images/background.png'});
-  position: absolute;
+  position: fixed;
   left: 0;
   top: -2px;
+  z-index: 10000;
 `;
 
 export const LoginBlock = styled.div`
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   width: 570px;
@@ -21,6 +23,7 @@ export const LoginBlock = styled.div`
   border-radius: 10px;
   box-shadow: 0px 2px 10px rgba(0,0,0, 0.3);
   font-family: PT Sans;
+  z-index: 10001;
 `;
 
 export const LoginBlockHeader = styled.div`
