@@ -10,7 +10,8 @@ import { ProductCardElement,
         ProductName,
         ProductDescription,
         ProductPrice,
-        CurrencySymbol } from './styled/product-card';
+        CurrencySymbol,
+        ProductCardButton} from './styled/product-card';
 
 const ProductCard = (props) => {
     return <ProductCardElement>
@@ -26,6 +27,8 @@ const ProductCard = (props) => {
             <ProductName>{props.product.name}</ProductName>
             <ProductDescription>{props.product.description}</ProductDescription>
             <ProductPrice><CurrencySymbol>$</CurrencySymbol>{props.product.cost}</ProductPrice>
+            <ProductCardButton>Show More</ProductCardButton>
+            <ProductCardButton secondary left>Delete</ProductCardButton>
         </ProductDetailsContainer>
     </ProductCardElement>
 }

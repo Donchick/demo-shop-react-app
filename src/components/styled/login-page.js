@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { CommonLayout, Input} from "./common-layout";
-import Button from "./button";
+import { Input} from "./common-layout";
+import { Button } from "./button";
 
 export const LoginLayout = styled.div`
   height: 101%;

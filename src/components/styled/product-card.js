@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from './button';
 
 export const ProductCardElement = styled.div`
   vertical-align: top;
@@ -102,4 +103,12 @@ export const ProductPrice = styled.span`
 
 export const CurrencySymbol = styled.i`
   color: #288575;
+`;
+
+export const ProductCardButton = styled(Button)`
+  position: absolute;
+  bottom: 20px;
+  max-width: 90px;
+  width: 25%;
+  right: ${(props) => props.left ? '120px;' : '20px;'}
 `;
