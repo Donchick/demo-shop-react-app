@@ -28,6 +28,14 @@ export const HeaderMenu = styled.div`
   margin: 0 auto;
   height: 100%;
   text-align: right;
+  
+  @media (max-width: 1000px) {
+    max-width: 840px;
+  }
+  
+  @media (max-width: 800px) {
+    max-width: 540px;
+  }
 `;
 
 export const Main = styled.main`
@@ -39,6 +47,14 @@ export const Main = styled.main`
   min-height: calc(100% - 153px);
   flex-grow: 99;
   min-width: 80%;
+  
+  @media (max-width: 1000px) {
+    max-width: 780px;
+  }
+  
+  @media (max-width: 800px) {
+    max-width: 480px;
+  }
 `;
 
 export const BagIcon = styled.i`
