@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { ProductsList } from '../components/styled/products-manager';
-import { getProducts, removeProduct } from "../actions/products";
+import { getProducts, removeProduct, filterProducts } from "../actions/products";
 import ProductCard from '../components/product-card';
 import connect from "react-redux/es/connect/connect";
 import PropTypes from 'prop-types';
 import { history } from '../helpers/history';
+import ProductsFilter from '../components/products-filter';
 
 const mapStateToProps = (state) => ({
     products: state.products
@@ -36,8 +37,13 @@ class ProductsManager extends Component {
         this.props.removeProduct(productId);
     }
 
+    handleFilterProduct (keyword) {
+        this.props.filterProducts(keyword);
+    }
+
     render () {
         return <div>
+            <ProductsFilter filterProduct={this.handleFilterProduct.bind(this)}/>
             {this.state.products.length > 0 ? <ProductsList>
                 {this.state.products.map(product => (
                     <ProductCard key={product.id}
@@ -53,7 +59,8 @@ class ProductsManager extends Component {
 ProductsManager.propTypes = {
     products: PropTypes.array.isRequired,
     getProducts: PropTypes.func.isRequired,
-    removeProduct: PropTypes.func.isRequired
+    removeProduct: PropTypes.func.isRequired,
+    filterProducts: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, {getProducts, removeProduct})(ProductsManager);
+export default connect(mapStateToProps, {getProducts, removeProduct, filterProducts})(ProductsManager);

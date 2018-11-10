@@ -1,5 +1,5 @@
 import productsService from '../services/products';
-import { PRODUCTS_RECEIVED, PRODUCTS_RECEIVING_ERROR, PRODUCT_WAS_REMOVED, PRODUCT_REMOVE_PROCESS_FAILED } from "../constants/products";
+import { PRODUCTS_RECEIVED, PRODUCTS_RECEIVING_ERROR, PRODUCT_WAS_REMOVED, PRODUCT_REMOVE_PROCESS_FAILED, FILTER_PRODUCTS } from "../constants/products";
 
 const productsReceived = (products) => ({
     type: PRODUCTS_RECEIVED,
@@ -21,6 +21,11 @@ const productRemoveProcessFailed = (removedProductId) => ({
     removedProductId
 });
 
+const filterProductsAction = (keyword) => ({
+    type: FILTER_PRODUCTS,
+    keyword
+});
+
 export const getProducts = () => dispatch => {
     return productsService.getProducts()
         .then(productsReceived)
@@ -33,4 +38,8 @@ export const removeProduct = (productId) => dispatch => {
         .then(() => productWasRemoved(productId))
         .catch(productRemoveProcessFailed)
         .then(dispatch);
+};
+
+export const filterProducts = (keyword) => dispatch => {
+    dispatch(filterProductsAction(keyword));
 };
