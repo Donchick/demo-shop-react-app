@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FilterContainer, FilterInput, FilterBoxButton, FilterOptionsBox, Filters, ProductParamsFilters } from "./styled/products-filter";
+import { FilterContainer, FilterInput, FilterBoxButton, FilterOptionsBox, Filters, ProductParamFilters, ProductRangeFilters } from "./styled/products-filter";
 
 
 class ProductsFilter extends Component {
@@ -32,7 +32,8 @@ class ProductsFilter extends Component {
             <FilterBoxButton onClick={this.handleFilterBoxButton.bind(this)}>Filter Options</FilterBoxButton>
             <FilterOptionsBox open={this.state.filterOptionBoxOpen}>
                 <Filters>
-                    <ProductParamsFilters></ProductParamsFilters>
+                    <ProductParamFilters></ProductParamFilters>
+                    <ProductRangeFilters></ProductRangeFilters>
                 </Filters>
             </FilterOptionsBox>
             <FilterInput placeholder='Filter by text...'

@@ -76,9 +76,18 @@ export const Filters = styled.div`
   }
 `;
 
-export const ProductParamsFilters = styled.div`
+export const ProductParamFilters = styled.div`
   width: 100%;
   height: 56px;
   border-bottom: 1px solid #2e8879;
   font-size: 0;
+`;
+
+export const ProductRangeFilters = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 64px;
 `;
