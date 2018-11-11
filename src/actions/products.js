@@ -41,5 +41,9 @@ export const removeProduct = (productId) => dispatch => {
 };
 
 export const filterProducts = (keyword) => dispatch => {
-    dispatch(filterProductsAction(keyword));
+    productsService.getProducts()
+        .then(productsReceived)
+        .catch(productsReceivingError)
+        .then(dispatch)
+        .then(() => dispatch(filterProductsAction(keyword)));
 };
