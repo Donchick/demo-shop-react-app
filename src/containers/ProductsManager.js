@@ -7,6 +7,12 @@ import PropTypes from 'prop-types';
 import { history } from '../helpers/history';
 import ProductsFilter from '../components/products-filter';
 
+let _timer = null;
+const _debounce = (func, timeout) => {
+    clearTimeout(_timer);
+    _timer = setTimeout(func, timeout);
+};
+
 const mapStateToProps = (state) => ({
     products: state.products
 });
@@ -37,8 +43,8 @@ class ProductsManager extends Component {
         this.props.removeProduct(productId);
     }
 
-    handleFilterProduct (keyword) {
-        this.props.filterProducts(keyword);
+    handleFilterProduct (filter) {
+        _debounce(this.props.filterProducts(filter), 300);
     }
 
     render () {

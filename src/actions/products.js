@@ -21,9 +21,9 @@ const productRemoveProcessFailed = (removedProductId) => ({
     removedProductId
 });
 
-const filterProductsAction = (keyword) => ({
+const filterProductsAction = (filter) => ({
     type: FILTER_PRODUCTS,
-    keyword
+    filter
 });
 
 export const getProducts = () => dispatch => {
@@ -40,10 +40,10 @@ export const removeProduct = (productId) => dispatch => {
         .then(dispatch);
 };
 
-export const filterProducts = (keyword) => dispatch => {
+export const filterProducts = (filter) => dispatch => {
     productsService.getProducts()
         .then(productsReceived)
         .catch(productsReceivingError)
         .then(dispatch)
-        .then(() => dispatch(filterProductsAction(keyword)));
+        .then(() => dispatch(filterProductsAction(filter)));
 };

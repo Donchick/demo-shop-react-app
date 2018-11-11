@@ -1,24 +1,43 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FilterContainer, FilterInput } from "./styled/products-filter";
+import { FilterContainer, FilterInput, FilterBoxButton, FilterOptionsBox, Filters, ProductParamsFilters } from "./styled/products-filter";
+
 
 class ProductsFilter extends Component {
     constructor(props) {
         super(props);
-        this.filterInputRef = React.createRef();
+        this.state = {
+            filterOptionBoxOpen: false,
+            name: ''
+        };
+    }
+
+    handleFilterBoxButton() {
+        this.setState({filterOptionBoxOpen: !this.state.filterOptionBoxOpen});
+    }
+
+    handleChange(e) {
+        switch (e.target.name) {
+            case 'name':
+                this.setState({[e.target.name]: e.target.value});
+                break;
+            default:
+        }
+
+        this.props.filterProduct(this.state);
     }
 
     render() {
-        let timerId = null;
-        const handleInputKeyUp = () => {
-            clearTimeout(timerId);
-            timerId = setTimeout(() => this.props.filterProduct(this.filterInputRef.current.value), 300);
-        };
-
         return <FilterContainer>
-            <FilterInput ref={this.filterInputRef}
-                         placeholder='Filter by text...'
-                         onKeyUp={handleInputKeyUp.bind(this)}></FilterInput>
+            <FilterBoxButton onClick={this.handleFilterBoxButton.bind(this)}>Filter Options</FilterBoxButton>
+            <FilterOptionsBox open={this.state.filterOptionBoxOpen}>
+                <Filters>
+                    <ProductParamsFilters></ProductParamsFilters>
+                </Filters>
+            </FilterOptionsBox>
+            <FilterInput placeholder='Filter by text...'
+                         name='name'
+                         onKeyUp={this.handleChange.bind(this)}></FilterInput>
         </FilterContainer>
     }
 }
