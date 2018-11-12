@@ -68,7 +68,7 @@ export const Filters = styled.div`
   ::before {
       position: absolute;
       display: block;
-      content: url(${process.env.PUBLIC_URL + 'assets/images/tooltip-triangle.png'});
+      content: url(${process.env.PUBLIC_URL + '/assets/images/tooltip-triangle.png'});
       top: 0;
       right: 310px;
       width: 16px;
@@ -122,5 +122,5 @@ export const FilterTitle = styled.span`
     color: #000000;
     font-family: PT Sans, serif, sans-serif;
     display: inline-block;
-    padding-bottom: 5px;
+    padding-bottom: ${(props) => props.bottomPadding ? '5px' : '0'};
 `;

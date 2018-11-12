@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, CheckboxLabel } from "./styled/checkbox";
 import { RadioButton, RadioButtonLabel } from "./styled/radio-button";
+import { SelectList } from "./styled/select-list";
 import Gender from '../helpers/models/gender';
 import { FilterContainer,
          FilterInput,
@@ -49,12 +50,12 @@ class ProductsFilter extends Component {
                 <Filters>
                     <ProductParamFilters>
                         <Filter>
-                            <FilterTitle>Availability:</FilterTitle><br></br>
+                            <FilterTitle bottomPadding>Availability:</FilterTitle><br/>
                             <Checkbox type='checkbox' id='checkbox'></Checkbox>
                             <CheckboxLabel htmlFor='checkbox'>Available Only</CheckboxLabel>
                         </Filter>
                         <GenderFilter>
-                            <FilterTitle>Gender:</FilterTitle><br></br>
+                            <FilterTitle bottomPadding>Gender:</FilterTitle><br/>
                             {Object.values(Gender).map((genderKind) => (<span key={genderKind}>
                                 <RadioButton type='radio' name='filter-gender' value={genderKind} id={genderKind}/>
                                 <RadioButtonLabel htmlFor={genderKind}>{genderKind}</RadioButtonLabel>
@@ -66,6 +67,13 @@ class ProductsFilter extends Component {
                         </GenderFilter>
                         <CategoryFilter>
                             <FilterTitle>Category:</FilterTitle>
+                            <SelectList green>
+                                <option value='All'>All</option>
+                                {['Active Wear', 'Jeans', 'Coats', 'Sweaters', 'Wear to work']
+                                    .map((category) => (
+                                    <option value={category} key={category}>{category}</option>
+                                ))}
+                            </SelectList>
                         </CategoryFilter>
                     </ProductParamFilters>
                     <ProductRangeFilters>
