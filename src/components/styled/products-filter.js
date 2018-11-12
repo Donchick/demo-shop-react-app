@@ -91,3 +91,36 @@ export const ProductRangeFilters = styled.div`
   width: 100%;
   height: 64px;
 `;
+
+export const Filter = styled.div`
+    font-size: 14px;
+    font-family: PT Sans, serif, sans-serif;
+    text-align: left;
+    vertical-align: top;
+    display: inline-block;
+    width: 25%;
+`;
+
+export const GenderFilter = styled(Filter)`
+    width: 45%;
+`;
+
+export const CategoryFilter = styled(Filter)`
+    width: 30%;
+`;
+
+export const RangeFilter = styled(Filter)`
+    margin-right: 19px;
+`;
+
+export const PriceFilter = styled(RangeFilter)`
+    width: 30%;
+`;
+
+export const FilterTitle = styled.span`
+    font-size: 12px;
+    color: #000000;
+    font-family: PT Sans, serif, sans-serif;
+    display: inline-block;
+    padding-bottom: 5px;
+`;

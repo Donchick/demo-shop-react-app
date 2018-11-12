@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FilterContainer, FilterInput, FilterBoxButton, FilterOptionsBox, Filters, ProductParamFilters, ProductRangeFilters } from "./styled/products-filter";
+import { Checkbox, CheckboxLabel } from "./styled/checkbox";
+import { FilterContainer,
+         FilterInput,
+         FilterBoxButton,
+         FilterOptionsBox,
+         Filters,
+         ProductParamFilters,
+         ProductRangeFilters,
+         Filter,
+         CategoryFilter,
+         GenderFilter,
+         PriceFilter,
+         RangeFilter,
+         FilterTitle} from "./styled/products-filter";
 
 
 class ProductsFilter extends Component {
@@ -32,8 +45,27 @@ class ProductsFilter extends Component {
             <FilterBoxButton onClick={this.handleFilterBoxButton.bind(this)}>Filter Options</FilterBoxButton>
             <FilterOptionsBox open={this.state.filterOptionBoxOpen}>
                 <Filters>
-                    <ProductParamFilters></ProductParamFilters>
-                    <ProductRangeFilters></ProductRangeFilters>
+                    <ProductParamFilters>
+                        <Filter>
+                            <FilterTitle>Availability:</FilterTitle><br></br>
+                            <Checkbox type='checkbox' id='checkbox'></Checkbox>
+                            <CheckboxLabel for='checkbox'>Available Only</CheckboxLabel>
+                        </Filter>
+                        <GenderFilter>
+                            <FilterTitle>Gender:</FilterTitle>
+                        </GenderFilter>
+                        <CategoryFilter>
+                            <FilterTitle>Category:</FilterTitle>
+                        </CategoryFilter>
+                    </ProductParamFilters>
+                    <ProductRangeFilters>
+                        <RangeFilter>
+                            <FilterTitle>Rating:</FilterTitle>
+                        </RangeFilter>
+                        <PriceFilter>
+                            <FilterTitle>Price:</FilterTitle>
+                        </PriceFilter>
+                    </ProductRangeFilters>
                 </Filters>
             </FilterOptionsBox>
             <FilterInput placeholder='Filter by text...'
