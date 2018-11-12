@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, CheckboxLabel } from "./styled/checkbox";
+import { RadioButton, RadioButtonLabel } from "./styled/radio-button";
+import Gender from '../helpers/models/gender';
 import { FilterContainer,
          FilterInput,
          FilterBoxButton,
@@ -49,10 +51,18 @@ class ProductsFilter extends Component {
                         <Filter>
                             <FilterTitle>Availability:</FilterTitle><br></br>
                             <Checkbox type='checkbox' id='checkbox'></Checkbox>
-                            <CheckboxLabel for='checkbox'>Available Only</CheckboxLabel>
+                            <CheckboxLabel htmlFor='checkbox'>Available Only</CheckboxLabel>
                         </Filter>
                         <GenderFilter>
-                            <FilterTitle>Gender:</FilterTitle>
+                            <FilterTitle>Gender:</FilterTitle><br></br>
+                            {Object.values(Gender).map((genderKind) => (<span key={genderKind}>
+                                <RadioButton type='radio' name='filter-gender' value={genderKind} id={genderKind}/>
+                                <RadioButtonLabel htmlFor={genderKind}>{genderKind}</RadioButtonLabel>
+                            </span>))}
+                            <span>
+                                <RadioButton type='radio' name='filter-gender' value='All' id='All'/>
+                                <RadioButtonLabel htmlFor='All'>All</RadioButtonLabel>
+                            </span>
                         </GenderFilter>
                         <CategoryFilter>
                             <FilterTitle>Category:</FilterTitle>
