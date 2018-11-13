@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Checkbox, CheckboxLabel } from "./styled/checkbox";
 import { RadioButton, RadioButtonLabel } from "./styled/radio-button";
 import { SelectList } from "./styled/select-list";
+import RangeSlider from './range-slider';
 import Gender from '../helpers/models/gender';
 import { FilterContainer,
          FilterInput,
@@ -79,6 +80,7 @@ class ProductsFilter extends Component {
                     <ProductRangeFilters>
                         <RangeFilter>
                             <FilterTitle>Rating:</FilterTitle>
+                            <RangeSlider min={0} max={5}/>
                         </RangeFilter>
                         <PriceFilter>
                             <FilterTitle>Price:</FilterTitle>
