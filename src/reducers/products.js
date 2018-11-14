@@ -9,7 +9,12 @@ const products = (state = [], action) => {
             return state.filter((product) => product.id !== action.removedProductId);
 
         case FILTER_PRODUCTS:
-            return state.filter((product) => product.name.toLowerCase().indexOf(action.filter.name.toLowerCase()) >= 0);
+            return state.filter((product) =>
+                (product.name.toLowerCase().indexOf(action.filter.name.toLowerCase()) >= 0)
+                && (product.rating >= action.filter.rating.from && product.rating <= action.filter.rating.to)
+                && (product.cost >= action.filter.price.from && product.cost <= action.filter.price.to)
+                && (action.filter.gender === 'All' || product.gender === action.filter.gender)
+                && (!action.filter.availableOnly || product.count > product.soldCount));
 
         default:
             return state

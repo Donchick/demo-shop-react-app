@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {Input} from "./common-layout";
 import {Button} from "./button";
+import RangeSlider from '../range-slider';
 
 export const FilterContainer = styled.div`
   text-align: right;
@@ -90,6 +91,7 @@ export const ProductRangeFilters = styled.div`
   align-items: center;
   width: 100%;
   height: 64px;
+  padding-top: 15px;
 `;
 
 export const Filter = styled.div`
@@ -111,10 +113,13 @@ export const CategoryFilter = styled(Filter)`
 
 export const RangeFilter = styled(Filter)`
     margin-right: 19px;
+    width: 25%;
+    max-width: 237px;
 `;
 
 export const PriceFilter = styled(RangeFilter)`
-    width: 30%;
+    width: 65%;
+    max-width: 420px;
 `;
 
 export const FilterTitle = styled.span`
@@ -123,4 +128,13 @@ export const FilterTitle = styled.span`
     font-family: PT Sans, serif, sans-serif;
     display: inline-block;
     padding-bottom: ${(props) => props.bottomPadding ? '5px' : '0'};
+`;
+
+export const RatingRangeSlider = styled(RangeSlider)`
+    max-width: 237px;
+`;
+
+export const PriceRangeSlider = styled(RangeSlider)`
+    max-width: 420px;
+    margin-right: 19px;
 `;
