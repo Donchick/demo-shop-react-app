@@ -130,6 +130,10 @@ export const FilterTitle = styled.span`
     padding-bottom: ${(props) => props.bottomPadding ? '5px' : '0'};
 `;
 
+export const RangeFilterTitle = styled(FilterTitle)`
+    padding-bottom: 15px;
+`;
+
 export const RatingRangeSlider = styled(RangeSlider)`
     max-width: 237px;
 `;

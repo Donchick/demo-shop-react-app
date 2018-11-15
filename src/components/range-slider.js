@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { SliderContainer, Slider, RightSlider, MinMark, MaxMark, FloatingMark } from "./styled/range-slider";
+import { SliderContainer, RightSlider, LeftSlider, MinMark, MaxMark, FloatingMark } from "./styled/range-slider";
 
 class RangeSlider extends Component {
     constructor(props) {
@@ -56,7 +56,7 @@ class RangeSlider extends Component {
         return <SliderContainer>
             <MinMark>{this.props.min}</MinMark>
             <FloatingMark id='leftMark' min={this.props.min} max={this.props.max} value={this.state.from}>{this.state.from}</FloatingMark>
-            <Slider type='range'
+            <LeftSlider type='range'
                     value={this.state.from}
                     min={this.props.min}
                     max={this.props.max}

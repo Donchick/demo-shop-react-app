@@ -21,7 +21,8 @@ import { FilterContainer,
          RangeFilter,
          FilterTitle,
          RatingRangeSlider,
-         PriceRangeSlider} from "../components/styled/products-filter";
+         PriceRangeSlider,
+         RangeFilterTitle} from "../components/styled/products-filter";
 
 let _timer = null;
 const _debounce = (func, timeout) => {
@@ -99,11 +100,11 @@ class ProductsFilter extends Component {
                     </ProductParamFilters>
                     <ProductRangeFilters>
                         <RangeFilter>
-                            <FilterTitle>Rating:</FilterTitle>
+                            <RangeFilterTitle>Rating:</RangeFilterTitle>
                             <RatingRangeSlider name='rating' min={0} max={5} step={1} onChange={this.handleChange.bind(this)}/>
                         </RangeFilter>
                         <PriceFilter>
-                            <FilterTitle>Price:</FilterTitle>
+                            <RangeFilterTitle>Price:</RangeFilterTitle>
                             <PriceRangeSlider name='price' min={0} max={1000} step={1} onChange={this.handleChange.bind(this)}/>
                         </PriceFilter>
                     </ProductRangeFilters>
