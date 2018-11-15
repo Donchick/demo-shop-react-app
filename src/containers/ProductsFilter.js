@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, CheckboxLabel } from "./styled/checkbox";
-import { RadioButton, RadioButtonLabel } from "./styled/radio-button";
-import { SelectList } from "./styled/select-list";
+import { Checkbox, CheckboxLabel } from "../components/styled/checkbox";
+import { RadioButton, RadioButtonLabel } from "../components/styled/radio-button";
+import { SelectList } from "../components/styled/select-list";
 import Gender from '../helpers/models/gender';
 import {allCategory} from "../constants/categories";
+import connect from "react-redux/es/connect/connect";
+import { updateFilter } from "../actions/filter";
 import { FilterContainer,
          FilterInput,
          FilterBoxButton,
@@ -19,27 +21,28 @@ import { FilterContainer,
          RangeFilter,
          FilterTitle,
          RatingRangeSlider,
-         PriceRangeSlider} from "./styled/products-filter";
+         PriceRangeSlider} from "../components/styled/products-filter";
 
+let _timer = null;
+const _debounce = (func, timeout) => {
+    clearTimeout(_timer);
+    _timer = setTimeout(func, timeout);
+};
 
+const _fieldsToUpdate = {};
+
+const mapStateToProps = (state) => ({
+    filter: state.filter,
+    categories: state.categories
+});
 
 class ProductsFilter extends Component {
     constructor(props) {
         super(props);
         this.state = {
             filterOptionBoxOpen: false,
-            name: '',
-            availableOnly: false,
-            gender: 'All',
-            category: allCategory,
-            rating: {
-                from: 0,
-                to: 5
-            },
-            price: {
-                from: 0,
-                to: 1000
-            }
+            filter: props.filter,
+            categories: props.categories
         };
     }
 
@@ -50,11 +53,20 @@ class ProductsFilter extends Component {
     handleChange(e) {
         switch (e.target.name) {
             case 'availableOnly':
-                this.setState({[e.target.name]: e.target.checked});
+                _fieldsToUpdate[e.target.name] = e.target.checked;
                 break;
+
+            case 'category':
+                _fieldsToUpdate[e.target.name] = Number(e.target.value);
+                break;
+
             default:
-                this.setState({[e.target.name]: e.target.value});
+                _fieldsToUpdate[e.target.name] = e.target.value;
         }
+
+        _debounce(() => {
+            this.props.updateFilter(_fieldsToUpdate);
+        }, 300);
     }
 
     render() {
@@ -80,7 +92,7 @@ class ProductsFilter extends Component {
                             <SelectList name='category' green onChange={this.handleChange.bind(this)}>
                                 {[allCategory, ...this.props.categories]
                                     .map((category) => (
-                                    <option value={category} key={category.id} defaultValue={this.state.category === category}>{category.name}</option>
+                                    <option value={category.id} key={category.id} defaultValue={this.state.category === category}>{category.name}</option>
                                 ))}
                             </SelectList>
                         </CategoryFilter>
@@ -105,8 +117,9 @@ class ProductsFilter extends Component {
 }
 
 ProductsFilter.propTypes = {
-    filterProduct: PropTypes.func.isRequired,
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    filter: PropTypes.object.isRequired,
+    updateFilter: PropTypes.func.isRequired
 };
 
-export default ProductsFilter;
+export default connect(mapStateToProps, { updateFilter })(ProductsFilter);
