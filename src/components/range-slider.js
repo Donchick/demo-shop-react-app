@@ -18,35 +18,33 @@ class RangeSlider extends Component {
 
     changeHandler(e) {
         const target = e.target;
+        let fromValue = this.fromSlider.current.value;
+        let toValue = this.toSlider.current.value;
         if (target === this.toSlider.current) {
-            let toValue = this.toSlider.current.value * 1;
+            toValue = this.toSlider.current.value * 1;
             if(toValue <= this.fromSlider.current.value * 1) {
                 toValue = this.fromSlider.current.value;
             }
-            this.setState({
-                from: this.fromSlider.current.value,
-                to: toValue
-            });
         }
 
         if (target === this.fromSlider.current) {
-            let fromValue = this.fromSlider.current.value * 1;
+            fromValue = this.fromSlider.current.value * 1;
             if (fromValue >= this.toSlider.current.value * 1) {
                 fromValue = this.toSlider.current.value;
             }
-
-            this.setState({
-                from: fromValue,
-                to: this.toSlider.current.value
-            });
         }
+
+        this.setState({
+            from: fromValue,
+            to: toValue
+        });
 
         const updatedEvent = Object.assign({}, e, {
             target: {
                 name: this.props.name,
                 value: {
-                    from: this.state.from,
-                    to: this.state.to
+                    from: fromValue * 1,
+                    to: toValue * 1
                 }
             }
         });

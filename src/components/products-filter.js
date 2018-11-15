@@ -4,6 +4,7 @@ import { Checkbox, CheckboxLabel } from "./styled/checkbox";
 import { RadioButton, RadioButtonLabel } from "./styled/radio-button";
 import { SelectList } from "./styled/select-list";
 import Gender from '../helpers/models/gender';
+import {allCategory} from "../constants/categories";
 import { FilterContainer,
          FilterInput,
          FilterBoxButton,
@@ -21,6 +22,7 @@ import { FilterContainer,
          PriceRangeSlider} from "./styled/products-filter";
 
 
+
 class ProductsFilter extends Component {
     constructor(props) {
         super(props);
@@ -29,7 +31,7 @@ class ProductsFilter extends Component {
             name: '',
             availableOnly: false,
             gender: 'All',
-            category: 'All',
+            category: allCategory,
             rating: {
                 from: 0,
                 to: 5
@@ -53,8 +55,6 @@ class ProductsFilter extends Component {
             default:
                 this.setState({[e.target.name]: e.target.value});
         }
-
-        this.props.filterProduct(this.state);
     }
 
     render() {
@@ -78,9 +78,9 @@ class ProductsFilter extends Component {
                         <CategoryFilter>
                             <FilterTitle>Category:</FilterTitle>
                             <SelectList name='category' green onChange={this.handleChange.bind(this)}>
-                                {['All', 'Active Wear', 'Jeans', 'Coats', 'Sweaters', 'Wear to work']
+                                {[allCategory, ...this.props.categories]
                                     .map((category) => (
-                                    <option value={category} key={category} defaultValue={this.state.category === category}>{category}</option>
+                                    <option value={category} key={category.id} defaultValue={this.state.category === category}>{category.name}</option>
                                 ))}
                             </SelectList>
                         </CategoryFilter>
@@ -105,7 +105,8 @@ class ProductsFilter extends Component {
 }
 
 ProductsFilter.propTypes = {
-    filterProduct: PropTypes.func.isRequired
+    filterProduct: PropTypes.func.isRequired,
+    categories: PropTypes.array.isRequired
 };
 
 export default ProductsFilter;
