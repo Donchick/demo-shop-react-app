@@ -1,13 +1,7 @@
 import React, {Component} from 'react';
 import LoadingOverlay from './loading-overlay';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-
-const LoadingOverlayContainer = styled.div`
-    position: relative;
-    width: 100%;
-    height: 60px;
-`;
+import { LoadingOverlayContainer } from './styled/infinite-scroll';
 
 let _scrollHandler = () => {};
 
@@ -46,7 +40,10 @@ class InfiniteScroll extends Component {
     render () {
         return <div>
             {this.props.children}
-            {!this.props.allItemsLoaded ? <LoadingOverlayContainer><LoadingOverlay hideOverlay={true}/></LoadingOverlayContainer> : ''}
+            {!this.props.allItemsLoaded ?
+                <LoadingOverlayContainer>
+                    <LoadingOverlay hideOverlay={true}/>
+                </LoadingOverlayContainer> : ''}
             <div ref={this.bottomElement}></div>
         </div>
     }
