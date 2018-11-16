@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import { history } from '../helpers/history';
 import ProductsFilter from './ProductsFilter';
 import { allCategory } from "../constants/categories";
+import { PRODUCTS_PER_PAGE } from "../constants/products";
+import InfiniteScroll from '../components/infinite-scroll';
 
 const filterProducts = (products, filter) => {
     return products.filter((product) =>
@@ -16,7 +18,7 @@ const filterProducts = (products, filter) => {
         && (product.cost >= filter.price.from && product.cost <= filter.price.to)
         && (filter.gender === 'All' || product.gender === filter.gender)
         && (!filter.availableOnly || product.count > product.soldCount)
-        && (filter.category === allCategory.id || product.categoryId === filter.category))
+        && (filter.category === allCategory.id || product.categoryId === filter.category));
 };
 
 const mapStateToProps = (state) => ({
@@ -31,7 +33,11 @@ class ProductsManager extends Component {
         this.state = {
             products: props.products || [],
             categories: props.categories || [],
-            filter: props.filter || {}
+            filter: props.filter || {},
+            filteredProducts: [],
+            loadingInProcess: false,
+            pageCount: 1,
+            allItemsLoaded: false
         };
     }
 
@@ -60,17 +66,27 @@ class ProductsManager extends Component {
         this.props.removeProduct(productId);
     }
 
+    loadMoreProducts() {
+        this.setState({
+            pageCount: this.state.pageCount + 1
+        });
+    }
+
     render () {
+        const filteredProducts = filterProducts(this.state.products, this.state.filter);
+
         return <div>
             <ProductsFilter categories={this.state.categories}/>
-            {this.state.products.length > 0 ? <ProductsList>
-                {filterProducts(this.state.products, this.state.filter).map(product => (
-                    <ProductCard key={product.id}
-                                 product={product}
-                                 showDetails={this.handleShowDetailsClick.bind(this, product.id)}
-                                 deleteProduct={this.handleDeleteProductClick.bind(this, product.id)}/>
-                ))}
-            </ProductsList> : ''}
+            {this.state.products.length > 0 ? <InfiniteScroll loadMore={this.loadMoreProducts.bind(this)} allItemsLoaded={this.state.pageCount * PRODUCTS_PER_PAGE >= filteredProducts.length} loadingInProcess={this.state.loadingInProcess}>
+                <ProductsList>
+                    {filteredProducts.slice(0, this.state.pageCount * PRODUCTS_PER_PAGE).map(product => (
+                        <ProductCard key={product.id}
+                                     product={product}
+                                     showDetails={this.handleShowDetailsClick.bind(this, product.id)}
+                                     deleteProduct={this.handleDeleteProductClick.bind(this, product.id)}/>
+                    ))}
+                </ProductsList>
+            </InfiniteScroll>: ''}
         </div>
     }
 }
