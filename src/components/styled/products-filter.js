@@ -5,7 +5,6 @@ import RangeSlider from '../range-slider';
 
 export const FilterContainer = styled.div`
   text-align: right;
-  padding: 20px 0;
   position: relative;
   vertical-align: middle;
   line-height: 35px;

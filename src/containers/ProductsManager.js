@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ProductsList } from '../components/styled/products-manager';
+import { ProductsList, TopContainer } from '../components/styled/products-manager';
 import { getProducts, removeProduct } from "../actions/products";
 import { getCategories } from "../actions/categories";
 import ProductCard from '../components/product-card';
@@ -10,6 +10,8 @@ import ProductsFilter from './ProductsFilter';
 import { allCategory } from "../constants/categories";
 import { PRODUCTS_PER_PAGE } from "../constants/products";
 import InfiniteScroll from '../components/infinite-scroll';
+import { Button } from '../components/styled/button';
+import ProductActionModal from '../components/product-action-modal';
 
 const filterProducts = (products, filter) => {
     return products.filter((product) =>
@@ -39,6 +41,8 @@ class ProductsManager extends Component {
             pageCount: 1,
             allItemsLoaded: false
         };
+
+        this.addProductModal = React.createRef();
     }
 
     componentDidMount() {
@@ -72,11 +76,18 @@ class ProductsManager extends Component {
         });
     }
 
+    handleAddProductClick() {
+        this.addProductModal.current.open();
+    }
+
     render () {
         const filteredProducts = filterProducts(this.state.products, this.state.filter);
 
         return <div>
-            <ProductsFilter categories={this.state.categories}/>
+            <TopContainer>
+              <Button onClick={this.handleAddProductClick.bind(this)}>Add Product</Button>
+              <ProductsFilter categories={this.state.categories}/>
+            </TopContainer>
             {this.state.products.length > 0 ? <InfiniteScroll loadMore={this.loadMoreProducts.bind(this)} allItemsLoaded={this.state.pageCount * PRODUCTS_PER_PAGE >= filteredProducts.length} loadingInProcess={this.state.loadingInProcess}>
                 <ProductsList>
                     {filteredProducts.slice(0, this.state.pageCount * PRODUCTS_PER_PAGE).map(product => (
@@ -87,6 +98,7 @@ class ProductsManager extends Component {
                     ))}
                 </ProductsList>
             </InfiniteScroll>: ''}
+            <ProductActionModal ref={this.addProductModal} title='Add Product'/>
         </div>
     }
 }
