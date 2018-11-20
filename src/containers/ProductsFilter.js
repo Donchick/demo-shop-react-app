@@ -43,7 +43,8 @@ class ProductsFilter extends Component {
         this.state = {
             filterOptionBoxOpen: false,
             filter: props.filter,
-            categories: props.categories
+            categories: props.categories,
+            gender: 'All'
         };
     }
 

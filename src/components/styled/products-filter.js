@@ -8,6 +8,8 @@ export const FilterContainer = styled.div`
   position: relative;
   vertical-align: middle;
   line-height: 35px;
+  width: 100%;
+  max-width: 790px;
 `;
 
 export const FilterInput = styled(Input)`
@@ -53,7 +55,6 @@ export const FilterOptionsBox = styled.div`
   transition: opacity 1s;
   padding-top: 10px;
   width: 100%;
-  max-width: 790px;
   box-shadow: 1px 2px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
   line-height: normal;
