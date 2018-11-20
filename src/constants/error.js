@@ -1,0 +1,1 @@
+export const PROCESS_WAS_FAILED = 'PROCESS_WAS_FAILED';
