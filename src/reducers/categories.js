@@ -5,9 +5,6 @@ const categories = (state = [], action) => {
         case CATEGORIES_RECEIVED:
             return action.categories;
 
-        case CATEGORIES_RECEIVING_ERROR:
-            return action.error;
-
         default:
             return state
     }

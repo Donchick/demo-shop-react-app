@@ -10,10 +10,12 @@ import { logout } from '../actions/authentication';
 import PropTypes from 'prop-types';
 import authService from '../services/authentication';
 import { Header, Footer, HeaderMenu, Main, BagIcon, LogoutIcon } from '../components/styled/app';
+import ErrorModal from '../components/error-modal';
 
 const mapStateToProps = (state) => {
     return {
-        user: state.auth.user
+        user: state.auth.user,
+        error: state.error
     }
 };
 
@@ -21,8 +23,11 @@ class App extends Component {
     constructor () {
         super(...arguments);
         this.state = {
-            user: {}
+            user: {},
+            error: null
         };
+
+        this.errorModal = React.createRef();
     }
 
     componentDidMount() {
@@ -35,6 +40,10 @@ class App extends Component {
     componentWillReceiveProps(nextState) {
         if (nextState.user) {
             this.setState({user: nextState.user});
+        }
+        if (nextState.error) {
+            this.setState({error: nextState.error});
+            this.errorModal.current.open();
         }
     }
 
@@ -57,6 +66,7 @@ class App extends Component {
                     <Route path="/login" component={Login} />
                 </Main>
                 <Footer>Copyright “Demo Shop”, 2017</Footer>
+                <ErrorModal ref={this.errorModal} message={this.state.error}/>
             </CommonLayout>
         </Router>
     }

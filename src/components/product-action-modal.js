@@ -17,12 +17,6 @@ class ProductActionModal extends Component {
     this.modal.current.close();
   }
 
-  _handleChange(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-  }
-
   render () {
     return <ModalWrapper ref={this.modal} title={this.props.title}>
       <ProductActionManager/>

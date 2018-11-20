@@ -11,7 +11,6 @@ const auth = (state = [], action) => {
         case USER_LOGGED_OUT:
             return { user: null };
 
-        case LOGGED_OUT_FAILED:
         default:
             return state
     }

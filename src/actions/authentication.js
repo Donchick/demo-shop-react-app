@@ -1,6 +1,7 @@
 import authService from '../services/authentication';
 import { USER_LOGGED_IN, LOGIN_FAILED, LOGGED_OUT_FAILED } from '../constants/auth-actions';
 import { history } from '../helpers/history';
+import { PROCESS_WAS_FAILED } from '../constants/error';
 
 const loginSuccess = user => ({
     type: USER_LOGGED_IN,
@@ -12,9 +13,9 @@ const loginFailed = error => ({
     error
 });
 
-const logoutFailed = error => ({
-    type: LOGGED_OUT_FAILED,
-    error
+const processFailed = (message) => ({
+  type: PROCESS_WAS_FAILED,
+  message
 });
 
 export const login = (user) => dispatch => {
@@ -31,7 +32,6 @@ export const login = (user) => dispatch => {
 export const logout = (user) => dispatch => {
     return authService.logout(user)
         .then(() => history.push('/'))
-        .catch((error) => {
-            dispatch(logoutFailed(error));
-        });
+        .catch(() => processFailed('Logout failed.'))
+        .then(dispatch);
 };

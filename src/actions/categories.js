@@ -1,19 +1,20 @@
 import categoriesService from '../services/categories';
-import { CATEGORIES_RECEIVED, CATEGORIES_RECEIVING_ERROR } from "../constants/categories";
+import { CATEGORIES_RECEIVED } from "../constants/categories";
+import { PROCESS_WAS_FAILED } from '../constants/error';
 
 const categoriesReceived = (categories) => ({
     type: CATEGORIES_RECEIVED,
     categories
 });
 
-const categoriesReceivingError = (error) => ({
-    type: CATEGORIES_RECEIVING_ERROR,
-    error
+const processFailed = (message) => ({
+  type: PROCESS_WAS_FAILED,
+  message
 });
 
 export const getCategories = () => dispatch => {
     return categoriesService.getCategories()
         .then(categoriesReceived)
-        .catch(categoriesReceivingError)
+        .catch(() => processFailed('There was an error while receiving categories.'))
         .then(dispatch);
 };
