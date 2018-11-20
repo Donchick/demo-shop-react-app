@@ -22,7 +22,7 @@ class InfiniteScroll extends Component {
         document.removeEventListener('scroll', _scrollHandler);
     }
 
-    componentDidUpdate (prevProps) {
+    componentDidUpdate () {
         if (!this.props.allItemsLoaded) {
             document.addEventListener('scroll', _scrollHandler);
         }
@@ -51,7 +51,6 @@ class InfiniteScroll extends Component {
 
 InfiniteScroll.propTypes = {
     loadMore: PropTypes.func.isRequired,
-    loadingInProcess: PropTypes.bool.isRequired,
     allItemsLoaded: PropTypes.bool.isRequired
 };
 

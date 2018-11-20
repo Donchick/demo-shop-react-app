@@ -1,5 +1,5 @@
 import authService from '../services/authentication';
-import { USER_LOGGED_IN, LOGIN_FAILED, LOGGED_OUT_FAILED } from '../constants/auth-actions';
+import { USER_LOGGED_IN, LOGIN_FAILED } from '../constants/auth-actions';
 import { history } from '../helpers/history';
 import { PROCESS_WAS_FAILED } from '../constants/error';
 

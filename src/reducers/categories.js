@@ -1,4 +1,4 @@
-import {CATEGORIES_RECEIVED, CATEGORIES_RECEIVING_ERROR} from "../constants/categories";
+import {CATEGORIES_RECEIVED} from "../constants/categories";
 
 const categories = (state = [], action) => {
     switch (action.type) {

@@ -37,7 +37,6 @@ class ProductsManager extends Component {
             categories: props.categories || [],
             filter: props.filter || {},
             filteredProducts: [],
-            loadingInProcess: false,
             pageCount: 1,
             allItemsLoaded: false
         };
@@ -89,7 +88,7 @@ class ProductsManager extends Component {
               <Button onClick={this.handleAddProductClick.bind(this)}>Add Product</Button>
               <ProductsFilter categories={this.state.categories}/>
             </TopContainer>
-            {this.state.products.length > 0 ? <InfiniteScroll loadMore={this.loadMoreProducts.bind(this)} allItemsLoaded={this.state.pageCount * PRODUCTS_PER_PAGE >= filteredProducts.length} loadingInProcess={this.state.loadingInProcess}>
+            {this.state.products.length > 0 ? <InfiniteScroll loadMore={this.loadMoreProducts.bind(this)} allItemsLoaded={this.state.pageCount * PRODUCTS_PER_PAGE >= filteredProducts.length}>
                 <ProductsList>
                     {filteredProducts.slice(0, this.state.pageCount * PRODUCTS_PER_PAGE).map(product => (
                         <ProductCard key={product.id}
