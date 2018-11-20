@@ -43,8 +43,7 @@ class ProductsFilter extends Component {
         this.state = {
             filterOptionBoxOpen: false,
             filter: props.filter,
-            categories: props.categories,
-            gender: 'All'
+            categories: props.categories
         };
     }
 
@@ -85,8 +84,8 @@ class ProductsFilter extends Component {
                         <GenderFilter>
                             <FilterTitle bottomPadding>Gender:</FilterTitle><br/>
                             {[...Object.values(Gender), 'All'].map((genderKind) => (<span key={genderKind}>
-                                <RadioButton defaultChecked={this.state.gender === genderKind} type='radio' name='gender' value={genderKind} id={genderKind} onClick={this.handleChange.bind(this)}/>
-                                <RadioButtonLabel htmlFor={genderKind}>{genderKind}</RadioButtonLabel>
+                                <RadioButton defaultChecked={this.state.gender === genderKind} type='radio' name='gender' value={genderKind} id={`filter-${genderKind}`} onClick={this.handleChange.bind(this)}/>
+                                <RadioButtonLabel htmlFor={`filter-${genderKind}`}>{genderKind}</RadioButtonLabel>
                             </span>))}
                         </GenderFilter>
                         <CategoryFilter>

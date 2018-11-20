@@ -66,8 +66,8 @@ class ProductActionManager extends Component {
           <GenderBlock>
             {[...Object.values(Gender), 'All'].map((gender) => (
                 <span key={gender}>
-                    <RadioButton defaultChecked={this.state.gender === gender} type='radio' name='product-gender' value={gender} id={gender} onClick={this.handleChange.bind(this)}/>
-                    <RadioButtonLabel htmlFor={gender}>{gender}</RadioButtonLabel>
+                    <RadioButton defaultChecked={this.state.gender === gender} type='radio' name='product-gender' value={gender} id={`product-${gender}`} onClick={this.handleChange.bind(this)}/>
+                    <RadioButtonLabel htmlFor={`product-${gender}`}>{gender}</RadioButtonLabel>
                   </span>
             ))}
           </GenderBlock>
