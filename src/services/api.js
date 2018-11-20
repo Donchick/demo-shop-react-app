@@ -18,6 +18,18 @@ export default {
         });
     },
 
+    put(path, body) {
+      const sessionToken = getSessionToken();
+      return fetch(`/api/${path}`, {
+        method: 'put',
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+          "session-token": sessionToken
+        }
+      });
+    },
+
     post(path, body) {
         const sessionToken = path === 'login' ? null : getSessionToken();
         return fetch(`/api/${path}`, {

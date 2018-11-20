@@ -53,6 +53,7 @@ class ProductsManager extends Component {
     componentWillReceiveProps(nextState) {
         if (nextState.products) {
             this.setState({products: nextState.products});
+            this.addProductModal.current.close();
         }
         if (nextState.categories) {
             this.setState({categories: nextState.categories});

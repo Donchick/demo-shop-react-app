@@ -9,5 +9,15 @@ export default {
     removeProduct(productId) {
         return api.delete('products', productId)
             .then(res => res.json())
+    },
+
+    addProduct(product) {
+        return api.post('products', product)
+            .then(res => res.json());
+    },
+
+    updateProduct(product) {
+      return api.put(`products/${product.id}`, product)
+          .then(res => res.json());
     }
 }

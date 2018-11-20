@@ -1,4 +1,8 @@
-import {PRODUCTS_RECEIVED, PRODUCT_WAS_REMOVED, FILTER_PRODUCTS} from "../constants/products";
+import {PRODUCTS_RECEIVED,
+        PRODUCT_WAS_REMOVED,
+        PRODUCT_WAS_UPDATED,
+        PRODUCT_WAS_ADDED,
+        FILTER_PRODUCTS} from "../constants/products";
 import { allCategory } from "../constants/categories";
 
 const products = (state = [], action) => {
@@ -8,6 +12,12 @@ const products = (state = [], action) => {
 
         case PRODUCT_WAS_REMOVED:
             return state.filter((product) => product.id !== action.removedProductId);
+
+        case PRODUCT_WAS_UPDATED:
+            return state.map((product) => product.id === action.product.id ? action.product : product);
+
+        case PRODUCT_WAS_ADDED:
+            return state.concat([action.product]);
 
         case FILTER_PRODUCTS:
             return state.filter((product) =>

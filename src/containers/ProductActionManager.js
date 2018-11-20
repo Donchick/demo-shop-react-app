@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { updateProduct, addProduct } from '../actions/products';
 import { ProductActionForm,
          ProductActionFormContent,
          BlockContainer,
@@ -25,14 +26,19 @@ class ProductActionManager extends Component {
     super(props);
 
     this.state = {
-      gender: 'All',
+      product: props.product || {
+        id: null,
+        name: '',
+        image: '',
+        cost: '',
+        rating: 0,
+        gender: 'All',
+        description: '',
+        categoryId: allCategory.id,
+        count: 0,
+        soldCount: 0
+      },
       categories: props.categories || [],
-      name: '',
-      category: allCategory,
-      description: '',
-      linkToImage: '',
-      price: '',
-      rating: 0
     }
   }
 
@@ -42,12 +48,27 @@ class ProductActionManager extends Component {
     }
   }
 
-  handleChange () {
-    console.log('here');
+  handleChange (e) {
+    let product = Object.assign({}, this.state.product, {
+      [e.target.name]: e.target.value
+    });
+
+    this.setState({
+      product: product
+    });
+  }
+
+  handleSubmit(e) {
+    this.state.product.id ?
+        this.props.updateProduct(this.state.product) :
+        this.props.addProduct(this.state.product);
+
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   render () {
-    return <ProductActionForm>
+    return <ProductActionForm onSubmit={this.handleSubmit.bind(this)}>
       <ProductActionFormContent>
         <BlockContainer>
           <Block>
@@ -56,17 +77,17 @@ class ProductActionManager extends Component {
           </Block>
           <Block>
             <BlockTitle>Category:</BlockTitle>
-            <ProductSelectList green onChange={this.handleChange.bind(this)}>
+            <ProductSelectList green onChange={this.handleChange.bind(this)} name='categoryId'>
               {[allCategory, ...this.props.categories]
                   .map((category) => (
-                      <option value={category.id} key={category.id} defaultValue={this.state.category === category}>{category.name}</option>
+                      <option value={category.id} key={category.id} defaultValue={this.state.product.categoryId === category.id}>{category.name}</option>
                   ))}
             </ProductSelectList>
           </Block>
           <GenderBlock>
             {[...Object.values(Gender), 'All'].map((gender) => (
                 <span key={gender}>
-                    <RadioButton defaultChecked={this.state.gender === gender} type='radio' name='product-gender' value={gender} id={`product-${gender}`} onClick={this.handleChange.bind(this)}/>
+                    <RadioButton defaultChecked={this.state.product.gender === gender} type='radio' name='gender' value={gender} id={`product-${gender}`} onClick={this.handleChange.bind(this)}/>
                     <RadioButtonLabel htmlFor={`product-${gender}`}>{gender}</RadioButtonLabel>
                   </span>
             ))}
@@ -79,12 +100,12 @@ class ProductActionManager extends Component {
         <BlockContainer>
           <Block>
             <BlockTitle>Link to image:</BlockTitle>
-            <BlockInput name='linkToImage' onKeyUp={this.handleChange.bind(this)}/>
-            <ImagePreview/>
+            <BlockInput name='image' onKeyUp={this.handleChange.bind(this)}/>
+            {this.state.product.image ? <ImagePreview src={this.state.product.image}/> : ''}
           </Block>
           <Block>
             <BlockTitle>Price:</BlockTitle>
-            <BlockInput name='price' onKeyUp={this.handleChange.bind(this)}/>
+            <BlockInput name='cost' onKeyUp={this.handleChange.bind(this)}/>
           </Block>
           <Block>
             <BlockTitle>Rating:</BlockTitle>
@@ -102,4 +123,4 @@ class ProductActionManager extends Component {
 }
 
 
-export default connect(mapStateToProps, null)(ProductActionManager);
+export default connect(mapStateToProps, { updateProduct, addProduct })(ProductActionManager);

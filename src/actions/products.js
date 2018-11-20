@@ -1,5 +1,10 @@
 import productsService from '../services/products';
-import { PRODUCTS_RECEIVED, PRODUCTS_RECEIVING_ERROR, PRODUCT_WAS_REMOVED, PRODUCT_REMOVE_PROCESS_FAILED, FILTER_PRODUCTS } from "../constants/products";
+import { PRODUCTS_RECEIVED,
+         PRODUCTS_RECEIVING_ERROR,
+         PRODUCT_WAS_REMOVED,
+         PRODUCT_REMOVE_PROCESS_FAILED,
+         PRODUCT_WAS_ADDED,
+         PRODUCT_WAS_UPDATED } from "../constants/products";
 
 const productsReceived = (products) => ({
     type: PRODUCTS_RECEIVED,
@@ -21,9 +26,14 @@ const productRemoveProcessFailed = (removedProductId) => ({
     removedProductId
 });
 
-const filterProductsAction = (filter) => ({
-    type: FILTER_PRODUCTS,
-    filter
+const productWasAdded = (product) => ({
+    type: PRODUCT_WAS_ADDED,
+    product
+});
+
+const productWasUpdated = (product) => ({
+  type: PRODUCT_WAS_UPDATED,
+  product
 });
 
 export const getProducts = () => dispatch => {
@@ -40,10 +50,14 @@ export const removeProduct = (productId) => dispatch => {
         .then(dispatch);
 };
 
-export const filterProducts = (filter) => dispatch => {
-    productsService.getProducts()
-        .then(productsReceived)
-        .catch(productsReceivingError)
-        .then(dispatch)
-        .then(() => dispatch(filterProductsAction(filter)));
+export const updateProduct = (product) => dispatch => {
+    return productsService.updateProduct(product)
+        .then((product) => productWasUpdated(product))
+        .then(dispatch);
+};
+
+export const addProduct = (product) => dispatch => {
+  return productsService.addProduct(product)
+      .then((product) => productWasAdded(product))
+      .then(dispatch);
 };
