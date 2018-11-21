@@ -28,15 +28,16 @@ const ProductCard = (props) => {
             <ProductDescription>{props.product.description}</ProductDescription>
             <ProductPrice><CurrencySymbol>$</CurrencySymbol>{props.product.cost}</ProductPrice>
             <ProductCardButton onClick={props.showDetails}>Show More</ProductCardButton>
-            <ProductCardButton secondary left onClick={props.deleteProduct}>Delete</ProductCardButton>
+            { props.showDeleteButton ? <ProductCardButton secondary left onClick={props.deleteProduct}>Delete</ProductCardButton> : ''}
         </ProductDetailsContainer>
     </ProductCardElement>
-}
+};
 
 ProductCard.propTypes = {
     product: PropTypes.object.isRequired,
     showDetails: PropTypes.func.isRequired,
     deleteProduct: PropTypes.func.isRequired,
+    showDeleteButton: PropTypes.bool.isRequired
 };
 
 export default ProductCard

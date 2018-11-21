@@ -12,6 +12,7 @@ import { PRODUCTS_PER_PAGE } from "../constants/products";
 import InfiniteScroll from '../components/infinite-scroll';
 import { Button } from '../components/styled/button';
 import ProductActionModal from '../components/product-action-modal';
+import authService from '../services/authentication';
 
 const filterProducts = (products, filter) => {
     return products.filter((product) =>
@@ -26,7 +27,8 @@ const filterProducts = (products, filter) => {
 const mapStateToProps = (state) => ({
     products: state.products,
     categories: state.categories,
-    filter: state.filter
+    filter: state.filter,
+    user: state.auth.user
 });
 
 class ProductsManager extends Component {
@@ -38,7 +40,8 @@ class ProductsManager extends Component {
             filter: props.filter || {},
             filteredProducts: [],
             pageCount: 1,
-            allItemsLoaded: false
+            allItemsLoaded: false,
+            user: {}
         };
 
         this.addProductModal = React.createRef();
@@ -47,6 +50,10 @@ class ProductsManager extends Component {
     componentDidMount() {
         this.props.getProducts();
         this.props.getCategories();
+        const user = authService.getUser();
+        if (user) {
+        this.setState({user: user});
+        }
     }
 
     componentWillReceiveProps(nextState) {
@@ -59,6 +66,9 @@ class ProductsManager extends Component {
         }
         if (nextState.filter) {
             this.setState({filter: nextState.filter});
+        }
+        if (nextState.user) {
+          this.setState({user: nextState.user});
         }
     }
 
@@ -84,8 +94,8 @@ class ProductsManager extends Component {
         const filteredProducts = filterProducts(this.state.products, this.state.filter);
 
         return <div>
-            <TopContainer>
-              <Button onClick={this.handleAddProductClick.bind(this)}>Add Product</Button>
+            <TopContainer space-between={this.state.user.isAdmin}>
+              {this.state.user.isAdmin ? <Button onClick={this.handleAddProductClick.bind(this)}>Add Product</Button> : ''}
               <ProductsFilter categories={this.state.categories}/>
             </TopContainer>
             {this.state.products.length > 0 ? <InfiniteScroll loadMore={this.loadMoreProducts.bind(this)} allItemsLoaded={this.state.pageCount * PRODUCTS_PER_PAGE >= filteredProducts.length}>
@@ -94,7 +104,8 @@ class ProductsManager extends Component {
                         <ProductCard key={product.id}
                                      product={product}
                                      showDetails={this.handleShowDetailsClick.bind(this, product.id)}
-                                     deleteProduct={this.handleDeleteProductClick.bind(this, product.id)}/>
+                                     deleteProduct={this.handleDeleteProductClick.bind(this, product.id)}
+                                     showDeleteButton={this.state.user.isAdmin}/>
                     ))}
                 </ProductsList>
             </InfiniteScroll>: ''}
@@ -110,7 +121,7 @@ ProductsManager.propTypes = {
     getProducts: PropTypes.func.isRequired,
     getCategories: PropTypes.func.isRequired,
     removeProduct: PropTypes.func.isRequired,
-    filterProducts: PropTypes.func.isRequired
+    filterProducts: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {getProducts, removeProduct, filterProducts, getCategories})(ProductsManager);

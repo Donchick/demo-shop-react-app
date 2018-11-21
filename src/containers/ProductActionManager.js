@@ -156,7 +156,7 @@ class ProductActionManager extends Component {
               {shouldMarkError('image') ? <ErrorMessage>{error.image}</ErrorMessage> : ''}
               {this.state.imagePathInvalid && this.state.touched.image && !error.image ? <ErrorMessage>Image path invalid</ErrorMessage> : ''}
             <BlockInput name='image' onKeyUp={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)}/>
-            {this.state.product.image ? <ImagePreview src={this.state.product.image}/> : ''}
+            {this.state.product.image && !this.state.imagePathInvalid ? <ImagePreview src={this.state.product.image}/> : ''}
           </Block>
           <Block>
             <BlockTitle>Price:</BlockTitle>

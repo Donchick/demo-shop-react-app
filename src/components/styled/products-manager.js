@@ -11,5 +11,5 @@ export const TopContainer = styled.div`
   padding: 20px 0;
   display: flex;
   flex-flow: row no-wrap;
-  justify-content: space-between;
+  justify-content: ${(props) => props['space-between'] ? 'space-between' : 'flex-end'};
 `;
