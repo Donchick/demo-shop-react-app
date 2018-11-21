@@ -11,21 +11,56 @@ import { ProductActionForm,
          GenderBlock,
          ImagePreview,
          ProductSelectList,
-         SubmitButton} from '../components/styled/product-action-manager';
+         SubmitButton,
+         ErrorMessage } from '../components/styled/product-action-manager';
 import { RadioButton, RadioButtonLabel } from '../components/styled/radio-button';
 import Gender from '../helpers/models/gender';
 import connect from "react-redux/es/connect/connect";
 import {allCategory} from '../constants/categories';
+import imageValidator from '../validators/image-validator';
 
 const mapStateToProps = (state) => ({
   categories: state.categories
 });
+
+const validateField = (field, value) => {
+  if (value === '') {
+    return {
+      error: {...this.state.error, [field]: 'Field is required.'}
+    };
+  }
+
+  switch (field) {
+    case 'image':
+      return imageValidator(value).then((result) => {
+        let error = null;
+        if (result && result.imageLinkInvalid) {
+          error = 'Image path is invalid';
+        }
+
+        return {
+          error: {...this.state.error, [field]: error}
+        };
+      });
+    case 'cost':
+      const error = /^\d*(\.\d{1,2})?$/.test(value) ? null : 'Wrong price format.';
+      return {
+        error: {...this.state.error, [field]: error}
+      };
+    default:
+      return {
+        error: {...this.state.error, [field]: null}
+      };
+  }
+};
 
 class ProductActionManager extends Component {
   constructor (props) {
     super(props);
 
     this.state = {
+      error: {},
+      touched: {},
       product: props.product || {
         id: null,
         name: '',
@@ -48,14 +83,55 @@ class ProductActionManager extends Component {
     }
   }
 
-  handleChange (e) {
-    let product = Object.assign({}, this.state.product, {
-      [e.target.name]: e.target.value
-    });
+  validateField(field, value) {
+    if (value === '') {
+      this.setState({
+        error: {...this.state.error, [field]: 'Field is required.'}
+      });
+      return;
+    }
 
-    this.setState({
-      product: product
-    });
+    switch (field) {
+      case 'image':
+        imageValidator(value).then((result) => {
+          let error = null;
+          if (result && result.imageLinkInvalid) {
+            error = 'Image path is invalid';
+          }
+
+          this.setState({
+            error: {...this.state.error, [field]: error}
+          });
+        });
+        break;
+      case 'cost':
+        const error = /^\d*(\.\d{1,2})?$/.test(value) ? null : 'Wrong price format.';
+        this.setState({
+          error: {...this.state.error, [field]: error}
+        });
+        break;
+      default:
+        this.setState({
+          error: {...this.state.error, [field]: null}
+        });
+        return;
+    }
+  }
+
+  handleBlur(e) {
+    if (this.state.touched[e.target.name]) {
+      return;
+    }
+
+    this.setState({touched: {...this.state.touched, [e.target.name]: true}});
+  }
+
+  handleChange (e) {
+    this.validateField(e.target.name, e.target.value);
+
+    let product = { ...this.state.product, [e.target.name]: e.target.value };
+
+    this.setState({product});
   }
 
   handleSubmit(e) {
@@ -68,12 +144,16 @@ class ProductActionManager extends Component {
   }
 
   render () {
+    const isEnabled = Object.values(this.state.error).some((value) => !value) &&
+        Object.values(this.state.touched).length === 4;
+
     return <ProductActionForm onSubmit={this.handleSubmit.bind(this)}>
       <ProductActionFormContent>
         <BlockContainer>
           <Block>
             <BlockTitle>Name:</BlockTitle>
-            <BlockInput name='name' onKeyUp={this.handleChange.bind(this)}/>
+            {this.state.error.name && this.state.touched.name ? <ErrorMessage>{this.state.error.name}</ErrorMessage> : ''}
+            <BlockInput name='name' onKeyUp={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)}/>
           </Block>
           <Block>
             <BlockTitle>Category:</BlockTitle>
@@ -94,18 +174,21 @@ class ProductActionManager extends Component {
           </GenderBlock>
           <DescriptionBlock>
             <BlockTitle>Description:</BlockTitle>
-            <DescriptionTextArea name='description' onKeyUp={this.handleChange.bind(this)}/>
+            {this.state.error.description && this.state.touched.description ? <ErrorMessage>{this.state.error.description}</ErrorMessage> : ''}
+            <DescriptionTextArea name='description' onKeyUp={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)}/>
           </DescriptionBlock>
         </BlockContainer>
         <BlockContainer>
           <Block>
             <BlockTitle>Link to image:</BlockTitle>
-            <BlockInput name='image' onKeyUp={this.handleChange.bind(this)}/>
+            {this.state.error.image && this.state.touched.image ? <ErrorMessage>{this.state.error.image}</ErrorMessage> : ''}
+            <BlockInput name='image' onKeyUp={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)}/>
             {this.state.product.image ? <ImagePreview src={this.state.product.image}/> : ''}
           </Block>
           <Block>
             <BlockTitle>Price:</BlockTitle>
-            <BlockInput name='cost' onKeyUp={this.handleChange.bind(this)}/>
+            {this.state.error.cost && this.state.touched.cost ? <ErrorMessage>{this.state.error.cost}</ErrorMessage> : ''}
+            <BlockInput name='cost' onKeyUp={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)}/>
           </Block>
           <Block>
             <BlockTitle>Rating:</BlockTitle>
@@ -117,7 +200,7 @@ class ProductActionManager extends Component {
           </Block>
         </BlockContainer>
       </ProductActionFormContent>
-      <SubmitButton>Submit</SubmitButton>
+      <SubmitButton disabled={!isEnabled}>Submit</SubmitButton>
     </ProductActionForm>
   }
 }

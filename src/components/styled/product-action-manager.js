@@ -92,3 +92,11 @@ export const SubmitButton = styled(Button)`
   bottom: 30px;
   right: 30px;
 `;
+
+export const ErrorMessage = styled.p`
+    text-align: ${(props) => props.global ? 'center' : 'left'};
+    font-size: 16px;
+    padding: 0 10px 10px;
+    display: block;
+    color: #da1d1d;
+`;
