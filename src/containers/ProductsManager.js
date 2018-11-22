@@ -128,7 +128,7 @@ class ProductsManager extends Component {
                     ))}
                 </ProductsList>
             </InfiniteScroll>: ''}
-            <ProductActionModal ref={this.addProductModal} title='Add Product'/>
+            <ProductActionModal ref={this.addProductModal} title='Add Product' poduct={null}/>
         </div>
     }
 }

@@ -6,6 +6,8 @@ import { PRODUCTS_RECEIVED,
          PRODUCT_RECEIVED} from "../constants/products";
 import { PROCESS_WAS_FAILED } from '../constants/error';
 
+const digitFields = ['cost', 'rating', 'categoryId', 'soldCount', 'count'];
+
 const productsReceived = (products) => ({
     type: PRODUCTS_RECEIVED,
     products
@@ -58,6 +60,10 @@ export const removeProduct = (productId) => dispatch => {
 };
 
 export const updateProduct = (product) => dispatch => {
+    digitFields.forEach((field) => {
+      product[field] = product[field] * 1;
+    });
+
     return productsService.updateProduct(product)
         .then((product) => productWasUpdated(product))
         .catch(() => processFailed('There was an error while updating product.'))
@@ -65,6 +71,10 @@ export const updateProduct = (product) => dispatch => {
 };
 
 export const addProduct = (product) => dispatch => {
+  digitFields.forEach((field) => {
+    product[field] = product[field] * 1;
+  });
+
   return productsService.addProduct(product)
       .then((product) => productWasAdded(product))
       .catch(() => processFailed('There was an error while adding product.'))

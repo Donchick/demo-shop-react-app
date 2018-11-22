@@ -55,7 +55,7 @@ class ProductActionManager extends Component {
         gender: 'All',
         description: '',
         categoryId: allCategory.id,
-        count: 0,
+        count: 10,
         soldCount: 0
       },
       categories: props.categories || [],
@@ -97,15 +97,17 @@ class ProductActionManager extends Component {
   }
 
   handleChange (e) {
-    if (e.target.name === 'image' && e.target.value) {
-      imageValidator(e.target.value).then((result) => {
+    const name = e.target.name;
+    let value = e.target.value;
+    if (name === 'image' && value) {
+      imageValidator(value).then((result) => {
         this.setState({
             imagePathInvalid: !result
         });
       })
     }
 
-    let product = { ...this.state.product, [e.target.name]: e.target.value };
+    let product = { ...this.state.product, [name]: value };
 
     this.setState({product});
   }
@@ -154,14 +156,14 @@ class ProductActionManager extends Component {
           <Block>
             <BlockTitle>Category:</BlockTitle>
             <ProductSelectList green onChange={this.handleChange.bind(this)} name='categoryId' value={Number(product.categoryId || allCategory.id)}>
-              {[allCategory, ...this.props.categories]
+              {this.props.categories
                   .map((category) => (
                       <option value={category.id} key={category.id}>{category.name}</option>
                   ))}
             </ProductSelectList>
           </Block>
           <GenderBlock>
-            {[...Object.values(Gender), 'All'].map((gender) => (
+            {Object.values(Gender).map((gender) => (
                 <span key={gender}>
                     <RadioButton defaultChecked={product.gender === gender} type='radio' name='gender' value={gender} id={`product-${gender}`} onClick={this.handleChange.bind(this)}/>
                     <RadioButtonLabel htmlFor={`product-${gender}`}>{gender}</RadioButtonLabel>
