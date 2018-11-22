@@ -2,12 +2,18 @@ import productsService from '../services/products';
 import { PRODUCTS_RECEIVED,
          PRODUCT_WAS_ADDED,
          PRODUCT_WAS_UPDATED,
-         PRODUCT_WAS_REMOVED } from "../constants/products";
+         PRODUCT_WAS_REMOVED,
+         PRODUCT_RECEIVED} from "../constants/products";
 import { PROCESS_WAS_FAILED } from '../constants/error';
 
 const productsReceived = (products) => ({
     type: PRODUCTS_RECEIVED,
     products
+});
+
+const productReceived = (product) => ({
+  type: PRODUCT_RECEIVED,
+  product
 });
 
 const productWasRemoved = (removedProductId) => ({
@@ -35,6 +41,13 @@ export const getProducts = () => dispatch => {
         .then(productsReceived)
         .catch(() => processFailed('There was an error while receiving products.'))
         .then(dispatch);
+};
+
+export const getProduct = (id) => dispatch => {
+  return productsService.getProduct(id)
+      .then(productReceived)
+      .catch(() => processFailed('There was an error while receiving product.'))
+      .then(dispatch);
 };
 
 export const removeProduct = (productId) => dispatch => {

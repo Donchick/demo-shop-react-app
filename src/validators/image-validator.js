@@ -8,8 +8,6 @@ const imageValidator = (imgSrc) => {
     img.onerror = () => {
       resolve(false);
     };
-  }).then(result => {
-    return result ? null : {imageLinkInvalid: true};
   });
 
   img.src = imgSrc;

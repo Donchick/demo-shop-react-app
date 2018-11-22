@@ -19,7 +19,7 @@ class ProductActionModal extends Component {
 
   render () {
     return <ModalWrapper ref={this.modal} title={this.props.title}>
-      <ProductActionManager/>
+      <ProductActionManager {...this.props}/>
     </ModalWrapper>
   }
 }

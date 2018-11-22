@@ -13,6 +13,8 @@ import InfiniteScroll from '../components/infinite-scroll';
 import { Button } from '../components/styled/button';
 import ProductActionModal from '../components/product-action-modal';
 import authService from '../services/authentication';
+import { updateFilter } from "../actions/filter";
+import { DEFAULT_FILTER } from '../constants/filter';
 
 const filterProducts = (products, filter) => {
     return products.filter((product) =>
@@ -22,6 +24,21 @@ const filterProducts = (products, filter) => {
         && (filter.gender === 'All' || product.gender === filter.gender)
         && (!filter.availableOnly || product.count > product.soldCount)
         && (filter.category === allCategory.id || product.categoryId === filter.category));
+};
+
+const _parseUrl = (query) => {
+    if (!(/(\w+)=([-\d\w]+)/.test(query))) {
+        return;
+    }
+    const regExp = /(\w+)=([-\d\w]+)/;
+    const paramsArray = query.split('&');
+    const result = {};
+    paramsArray.forEach((param) => {
+        const regExpResult = regExp.exec(param);
+        result[regExpResult[1]] = regExpResult[1] === 'category' ? regExpResult[2] * 1 : regExpResult[2];
+    });
+    
+    return result;
 };
 
 const mapStateToProps = (state) => ({
@@ -48,11 +65,13 @@ class ProductsManager extends Component {
     }
 
     componentDidMount() {
+        const filter = _parseUrl(this.props.location.search) || DEFAULT_FILTER;
+        this.props.updateFilter({...this.props.filter, ...filter});
         this.props.getProducts();
         this.props.getCategories();
         const user = authService.getUser();
         if (user) {
-        this.setState({user: user});
+            this.setState({user: user});
         }
     }
 
@@ -96,7 +115,7 @@ class ProductsManager extends Component {
         return <div>
             <TopContainer space-between={this.state.user.isAdmin}>
               {this.state.user.isAdmin ? <Button onClick={this.handleAddProductClick.bind(this)}>Add Product</Button> : ''}
-              <ProductsFilter categories={this.state.categories}/>
+              <ProductsFilter categories={this.state.categories} filter={this.props.filter}/>
             </TopContainer>
             {this.state.products.length > 0 ? <InfiniteScroll loadMore={this.loadMoreProducts.bind(this)} allItemsLoaded={this.state.pageCount * PRODUCTS_PER_PAGE >= filteredProducts.length}>
                 <ProductsList>
@@ -105,7 +124,7 @@ class ProductsManager extends Component {
                                      product={product}
                                      showDetails={this.handleShowDetailsClick.bind(this, product.id)}
                                      deleteProduct={this.handleDeleteProductClick.bind(this, product.id)}
-                                     showDeleteButton={this.state.user.isAdmin}/>
+                                     showDeleteButton={this.state.user.isAdmin || false}/>
                     ))}
                 </ProductsList>
             </InfiniteScroll>: ''}
@@ -122,6 +141,7 @@ ProductsManager.propTypes = {
     getCategories: PropTypes.func.isRequired,
     removeProduct: PropTypes.func.isRequired,
     filterProducts: PropTypes.func.isRequired,
+    updateFilter: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, {getProducts, removeProduct, filterProducts, getCategories})(ProductsManager);
+export default connect(mapStateToProps, {getProducts, removeProduct, filterProducts, getCategories, updateFilter})(ProductsManager);

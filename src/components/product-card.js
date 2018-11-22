@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { ProductCardElement,
         ProductImageContainer,
         ProductImage,
-        ProductRatingContainer,
-        RatingStar,
-        GoldRatingStar,
         ProductDetailsContainer,
         ProductName,
         ProductDescription,
         ProductPrice,
         CurrencySymbol,
         ProductCardButton} from './styled/product-card';
+import { ProductRatingContainer,
+         RatingStar,
+         GoldRatingStar } from './styled/product-rating';
 
 const ProductCard = (props) => {
     return <ProductCardElement>

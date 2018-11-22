@@ -47,6 +47,12 @@ class ProductsFilter extends Component {
         };
     }
 
+    componentWillReceiveProps(nextState) {
+      if (nextState.filter) {
+        this.setState({filter: nextState.filter});
+      }
+    }
+
     handleFilterBoxButton() {
         this.setState({filterOptionBoxOpen: !this.state.filterOptionBoxOpen});
     }
@@ -71,6 +77,8 @@ class ProductsFilter extends Component {
     }
 
     render() {
+        const filter = this.props.filter;
+
         return <FilterContainer>
             <FilterBoxButton onClick={this.handleFilterBoxButton.bind(this)}>Filter Options</FilterBoxButton>
             <FilterOptionsBox open={this.state.filterOptionBoxOpen}>
@@ -83,17 +91,18 @@ class ProductsFilter extends Component {
                         </Filter>
                         <GenderFilter>
                             <FilterTitle bottomPadding>Gender:</FilterTitle><br/>
-                            {[...Object.values(Gender), 'All'].map((genderKind) => (<span key={genderKind}>
-                                <RadioButton defaultChecked={this.state.gender === genderKind} type='radio' name='gender' value={genderKind} id={`filter-${genderKind}`} onClick={this.handleChange.bind(this)}/>
-                                <RadioButtonLabel htmlFor={`filter-${genderKind}`}>{genderKind}</RadioButtonLabel>
-                            </span>))}
+                            {[...Object.values(Gender), 'All'].map((genderKind) => (
+                                <span key={genderKind}>
+                                  <RadioButton defaultChecked={filter.gender === genderKind} type='radio' name='gender' value={genderKind} id={`filter-${genderKind}`} onClick={this.handleChange.bind(this)}/>
+                                  <RadioButtonLabel htmlFor={`filter-${genderKind}`}>{genderKind}</RadioButtonLabel>
+                              </span>))}
                         </GenderFilter>
                         <CategoryFilter>
                             <FilterTitle>Category:</FilterTitle>
-                            <SelectList name='category' green onChange={this.handleChange.bind(this)}>
+                            <SelectList name='category' green onChange={this.handleChange.bind(this)} value={Number(filter.category || allCategory.id)}>
                                 {[allCategory, ...this.props.categories]
                                     .map((category) => (
-                                    <option value={category.id} key={category.id} defaultValue={this.state.category === category}>{category.name}</option>
+                                    <option value={category.id} key={category.id}>{category.name}</option>
                                 ))}
                             </SelectList>
                         </CategoryFilter>

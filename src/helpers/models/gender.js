@@ -1,5 +1,5 @@
 export default {
     Man: 'Man',
-    Women: 'Women',
+    Women: 'Woman',
     Unisex: 'Unisex'
 }

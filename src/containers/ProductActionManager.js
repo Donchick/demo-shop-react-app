@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { updateProduct, addProduct } from '../actions/products';
+import { getCategories } from '../actions/categories';
 import { ProductActionForm,
          ProductActionFormContent,
          BlockContainer,
@@ -22,7 +23,8 @@ import imageValidator from '../validators/image-validator';
 const validatableFields = ['name', 'description', 'image', 'cost'];
 
 const mapStateToProps = (state) => ({
-  categories: state.categories
+  categories: state.categories,
+  product: state.product
 });
 
 const validateField = (field, value) => {
@@ -60,9 +62,29 @@ class ProductActionManager extends Component {
     }
   }
 
+  componentDidMount () {
+    if (this.state.categories.length === 0) {
+      this.props.getCategories();
+    }
+
+    if (this.state.product.image) {
+      imageValidator(this.state.product.image).then((result) => {
+        this.setState({
+          imagePathInvalid: !result
+        });
+      })
+    }
+  }
+
   componentWillReceiveProps(nextState) {
     if (nextState.categories) {
       this.setState({categories: nextState.categories});
+    }
+
+    if (nextState.product) {
+      this.setState({
+        product: nextState.product
+      });
     }
   }
 
@@ -105,6 +127,8 @@ class ProductActionManager extends Component {
   }
 
   render () {
+    const product = this.state.product;
+
     const error = validatableFields.reduce((result, field) => {
       result[field] = validateField(field, this.state.product[field]);
       return result;
@@ -125,21 +149,21 @@ class ProductActionManager extends Component {
           <Block>
             <BlockTitle>Name:</BlockTitle>
             {shouldMarkError('name') ? <ErrorMessage>{error.name}</ErrorMessage> : ''}
-            <BlockInput name='name' onKeyUp={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)}/>
+            <BlockInput name='name' onKeyUp={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)} defaultValue={product.name}/>
           </Block>
           <Block>
             <BlockTitle>Category:</BlockTitle>
-            <ProductSelectList green onChange={this.handleChange.bind(this)} name='categoryId'>
+            <ProductSelectList green onChange={this.handleChange.bind(this)} name='categoryId' value={Number(product.categoryId || allCategory.id)}>
               {[allCategory, ...this.props.categories]
                   .map((category) => (
-                      <option value={category.id} key={category.id} defaultValue={this.state.product.categoryId === category.id}>{category.name}</option>
+                      <option value={category.id} key={category.id}>{category.name}</option>
                   ))}
             </ProductSelectList>
           </Block>
           <GenderBlock>
             {[...Object.values(Gender), 'All'].map((gender) => (
                 <span key={gender}>
-                    <RadioButton defaultChecked={this.state.product.gender === gender} type='radio' name='gender' value={gender} id={`product-${gender}`} onClick={this.handleChange.bind(this)}/>
+                    <RadioButton defaultChecked={product.gender === gender} type='radio' name='gender' value={gender} id={`product-${gender}`} onClick={this.handleChange.bind(this)}/>
                     <RadioButtonLabel htmlFor={`product-${gender}`}>{gender}</RadioButtonLabel>
                   </span>
             ))}
@@ -147,7 +171,7 @@ class ProductActionManager extends Component {
           <DescriptionBlock>
             <BlockTitle>Description:</BlockTitle>
               {shouldMarkError('description') ? <ErrorMessage>{error.description}</ErrorMessage> : ''}
-            <DescriptionTextArea name='description' onKeyUp={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)}/>
+            <DescriptionTextArea name='description' onKeyUp={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)} defaultValue={product.description}/>
           </DescriptionBlock>
         </BlockContainer>
         <BlockContainer>
@@ -155,19 +179,19 @@ class ProductActionManager extends Component {
             <BlockTitle>Link to image:</BlockTitle>
               {shouldMarkError('image') ? <ErrorMessage>{error.image}</ErrorMessage> : ''}
               {this.state.imagePathInvalid && this.state.touched.image && !error.image ? <ErrorMessage>Image path invalid</ErrorMessage> : ''}
-            <BlockInput name='image' onKeyUp={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)}/>
+            <BlockInput name='image' onKeyUp={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)} defaultValue={product.image}/>
             {this.state.product.image && !this.state.imagePathInvalid ? <ImagePreview src={this.state.product.image}/> : ''}
           </Block>
           <Block>
             <BlockTitle>Price:</BlockTitle>
               {shouldMarkError('cost') ? <ErrorMessage>{error.cost}</ErrorMessage> : ''}
-            <BlockInput name='cost' onKeyUp={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)}/>
+            <BlockInput name='cost' onKeyUp={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)} defaultValue={product.cost}/>
           </Block>
           <Block>
             <BlockTitle>Rating:</BlockTitle>
-            <ProductSelectList name='rating' onChange={this.handleChange.bind(this)}>
-              {[0, 1,2,3,4,5].map((rating) => (
-                  <option key={rating} value={rating}>{rating}</option>
+            <ProductSelectList name='rating' onChange={this.handleChange.bind(this)} value={product.rating || 0}>
+              {[0,1,2,3,4,5].map((rating) => (
+                  <option value={rating} key={rating}>{rating}</option>
               ))}
             </ProductSelectList>
           </Block>
@@ -178,5 +202,4 @@ class ProductActionManager extends Component {
   }
 }
 
-
-export default connect(mapStateToProps, { updateProduct, addProduct })(ProductActionManager);
+export default connect(mapStateToProps, { updateProduct, addProduct, getCategories })(ProductActionManager);
