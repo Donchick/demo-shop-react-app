@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../actions/authentication';
 import PropTypes from 'prop-types';
+import LoadingOverlay from '../components/loading-overlay';
 import {
     LoginLayout,
     LoginBlock,
@@ -16,7 +17,8 @@ import {
 
 const mapStateToProps = (state) => {
     return {
-        loginFailed: state.auth.loginFailed || false
+        loginFailed: state.auth.loginFailed || false,
+        loginInProcess: state.auth.loginInProcess || false
     };
 };
 
@@ -43,7 +45,8 @@ class Login extends Component {
                 userName: null,
                 password: null
             },
-            loginFailed: this.props.loginFailed || false
+            loginFailed: this.props.loginFailed || false,
+            loginInProcess: this.props.loginInProcess || false
         };
     }
 
@@ -51,11 +54,15 @@ class Login extends Component {
         if (nextState.loginFailed) {
             this.setState({loginFailed: nextState.loginFailed});
         }
+        if (nextState.loginInProcess) {
+            this.setState({loginInProcess: nextState.loginInProcess});
+        }
     }
 
     handleLoginFormSubmit (e) {
         e.preventDefault();
         e.stopPropagation();
+        this.clearErrors();
         this.props.login({
             login: this.state.userName,
             password: this.state.password
@@ -72,7 +79,6 @@ class Login extends Component {
 
     clearErrors (field) {
         this.setState({
-            loginFailed: false,
             errors: {
                 [field]: null
             }
@@ -94,10 +100,12 @@ class Login extends Component {
 
             return hasError && touched;
         };
+        const showLoadingOverlay = this.props.loginInProcess;
 
         return <div>
             <LoginLayout/>
             <LoginBlock>
+                { showLoadingOverlay ? <LoadingOverlay/> : ''}
                 <LoginBlockHeader>
                     Login to "Demo Shop"
                 </LoginBlockHeader>
