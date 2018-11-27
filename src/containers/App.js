@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ProductsManager from './ProductsManager';
 import Login from './Login';
-import { Router, Route } from 'react-router';
+import { Router, Route, Switch } from 'react-router';
 import LoginGuardRoute from '../components/login-guard-route';
 import {history} from "../helpers/history";
 import { CommonLayout } from '../components/styled/common-layout';
@@ -12,6 +12,7 @@ import authService from '../services/authentication';
 import { Header, Footer, HeaderMenu, Main, BagIcon, LogoutIcon } from '../components/styled/app';
 import ErrorModal from '../components/error-modal';
 import ProductPage from './ProductPage';
+import NotFound from '../components/not-found';
 
 const mapStateToProps = (state) => {
     return {
@@ -63,9 +64,12 @@ class App extends Component {
                     </HeaderMenu>
                 </Header>
                 <Main>
-                    <LoginGuardRoute exact path="/" component={ProductsManager} />
-                    <Route path="/login" component={Login} />
-                    <LoginGuardRoute path="/product/:id" component={ProductPage} />
+                    <Switch>
+                        <LoginGuardRoute exact path="/" component={ProductsManager} />
+                        <Route path="/login" component={Login} />
+                        <LoginGuardRoute path="/product/:id" component={ProductPage} />
+                        <Route component={ NotFound } />
+                    </Switch>
                 </Main>
                 <Footer>Copyright “Demo Shop”, 2017</Footer>
                 <ErrorModal ref={this.errorModal} message={this.state.error}/>
