@@ -1,5 +1,5 @@
 import authService from '../services/authentication';
-import { USER_LOGGED_IN, LOGIN_FAILED } from '../constants/auth-actions';
+import { USER_LOGGED_IN, LOGIN_FAILED, LOGIN_IN_PROCESS } from '../constants/auth-actions';
 import { history } from '../helpers/history';
 import { PROCESS_WAS_FAILED } from '../constants/error';
 
@@ -18,7 +18,12 @@ const processFailed = (message) => ({
   message
 });
 
+const loginInProcess = () => ({
+    type: LOGIN_IN_PROCESS
+});
+
 export const login = (user) => dispatch => {
+    dispatch(loginInProcess());
     return authService.login(user)
         .then((user) => {
             dispatch(loginSuccess(user));

@@ -4,6 +4,7 @@ export const LoadingOverlayContainer = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
+    z-index: 1000000;
 `;
 
 export const SpinnerContainer = styled.div`
