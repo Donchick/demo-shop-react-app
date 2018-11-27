@@ -23,8 +23,7 @@ import imageValidator from '../validators/image-validator';
 const validatableFields = ['name', 'description', 'image', 'cost'];
 
 const mapStateToProps = (state) => ({
-  categories: state.categories,
-  product: state.product
+  categories: state.categories
 });
 
 const validateField = (field, value) => {
