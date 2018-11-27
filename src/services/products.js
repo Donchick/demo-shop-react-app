@@ -7,6 +7,9 @@ export default {
     },
 
     getProduct(id) {
+      if (isNaN(id)) {
+          return Promise.reject('Product id is incorrect');
+      }
       return api.get(`products/${id}`)
           .then(res => res.json());
     },

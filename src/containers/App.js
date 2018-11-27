@@ -53,7 +53,7 @@ class App extends Component {
         this.setState({
           user: {}
         });
-        
+
         this.props.logout(this.state.user);
     }
 
@@ -71,7 +71,7 @@ class App extends Component {
                     <Switch>
                         <LoginGuardRoute exact path="/" component={ProductsManager} />
                         { this.state.user && this.state.user.login ? <Redirect from="/login" to="/"/> : <Route path="/login" component={Login} /> }
-                        <LoginGuardRoute path="/product/:id" component={ProductPage} />
+                        <LoginGuardRoute exact path="/product/:id" component={ProductPage} />
                         <Route component={ NotFound } />
                     </Switch>
                 </Main>
