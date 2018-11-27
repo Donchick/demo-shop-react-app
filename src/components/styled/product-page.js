@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import {Button} from './button';
+import { Link } from 'react-router-dom';
 
 export const NavigationBar = styled.div`
   padding: 20px 0;
@@ -99,4 +100,8 @@ export const BuyProductButton = styled(Button)`
 export const ManagerLink = styled.a`
   cursor: pointer;
   text-decoration: underline;
+`;
+
+export const CustomLink = styled(Link)`
+  color: inherit;
 `;

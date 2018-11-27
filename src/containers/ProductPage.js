@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { getProduct, updateProduct } from '../actions/products';
 import { getCategories } from '../actions/categories';
-import { history } from '../helpers/history';
 import connect from "react-redux/es/connect/connect";
 import LoadingOverlay from '../components/loading-overlay';
 import { ProductRatingContainer,
@@ -15,6 +14,7 @@ import { NavigationBar,
          BackLink,
          BuyProductButton,
          CategoryPathLink,
+         CustomLink,
          CurrencyIcon,
          ManagerLink,
          OutOfStockCaption,
@@ -87,18 +87,6 @@ class ProductPage extends Component {
     this.props.updateProduct(product);
   }
 
-  handleBackClick () {
-    history.push('/');
-  }
-
-  handleGenderCategoryClick () {
-    history.push(`/?gender=${this.props.product.gender}&category=${allCategory.id}`);
-  }
-
-  handleProductCategoryClick () {
-    history.push(`/?category=${this.props.product.categoryId}&gender=All`);
-  }
-
   render () {
     const showProduct = this.props.product.id;
     const showLoadingOverlay = this.props.activeProcess;
@@ -112,8 +100,11 @@ class ProductPage extends Component {
 
     return <div>
       <NavigationBar>
-        <BackLink><a onClick={this.handleBackClick.bind(this)}>Back</a></BackLink>
-        <CategoryPathLink>Category: <a onClick={this.handleGenderCategoryClick.bind(this)}>{product.gender}</a> / <a onClick={this.handleProductCategoryClick.bind(this)}>{category}</a></CategoryPathLink>
+        <BackLink><CustomLink to='/'>Back</CustomLink></BackLink>
+        <CategoryPathLink>
+          Category: <CustomLink to={{ pathname: '/', search:`category=${this.props.product.categoryId}&gender=All`}}>{product.gender}</CustomLink>
+          /
+          <CustomLink to={{ pathname: '/', search:`gender=${this.props.product.gender}&category=${allCategory.id}`}}>{category}</CustomLink></CategoryPathLink>
       </NavigationBar>
       { showProduct ? <ProductBlock>
         {showLoadingOverlay ? <LoadingOverlay/> : ''}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ProductsManager from './ProductsManager';
 import Login from './Login';
-import { Router, Route, Switch } from 'react-router';
+import { Router, Route, Switch, Redirect } from 'react-router';
 import LoginGuardRoute from '../components/login-guard-route';
 import {history} from "../helpers/history";
 import { CommonLayout } from '../components/styled/common-layout';
@@ -50,6 +50,10 @@ class App extends Component {
     }
 
     logout() {
+        this.setState({
+          user: {}
+        });
+        
         this.props.logout(this.state.user);
     }
 
@@ -66,7 +70,7 @@ class App extends Component {
                 <Main>
                     <Switch>
                         <LoginGuardRoute exact path="/" component={ProductsManager} />
-                        <Route path="/login" component={Login} />
+                        { this.state.user && this.state.user.login ? <Redirect from="/login" to="/"/> : <Route path="/login" component={Login} /> }
                         <LoginGuardRoute path="/product/:id" component={ProductPage} />
                         <Route component={ NotFound } />
                     </Switch>

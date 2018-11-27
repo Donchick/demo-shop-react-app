@@ -1,5 +1,5 @@
 import authService from '../services/authentication';
-import { USER_LOGGED_IN, LOGIN_FAILED, LOGIN_IN_PROCESS } from '../constants/auth-actions';
+import { USER_LOGGED_IN, LOGIN_FAILED, LOGIN_IN_PROCESS, USER_LOGGED_OUT } from '../constants/auth-actions';
 import { history } from '../helpers/history';
 import { PROCESS_WAS_FAILED } from '../constants/error';
 
@@ -22,6 +22,10 @@ const loginInProcess = () => ({
     type: LOGIN_IN_PROCESS
 });
 
+const logoutSuccess = () => ({
+    type: USER_LOGGED_OUT
+});
+
 export const login = (user) => dispatch => {
     dispatch(loginInProcess());
     return authService.login(user)
@@ -36,7 +40,8 @@ export const login = (user) => dispatch => {
 
 export const logout = (user) => dispatch => {
     return authService.logout(user)
-        .then(() => history.push('/'))
+        .then(logoutSuccess)
         .catch(() => processFailed('Logout failed.'))
-        .then(dispatch);
+        .then(dispatch)
+        .then(() => history.push('/'));
 };
