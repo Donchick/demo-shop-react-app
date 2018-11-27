@@ -40,10 +40,10 @@ class InfiniteScroll extends Component {
     render () {
         return <div>
             {this.props.children}
-            {!this.props.allItemsLoaded ?
-                <LoadingOverlayContainer>
-                    <LoadingOverlay hideOverlay={true}/>
-                </LoadingOverlayContainer> : ''}
+            <LoadingOverlayContainer>
+                {!this.props.allItemsLoaded ?
+                    <LoadingOverlay hideOverlay={true}/> : ''}
+                </LoadingOverlayContainer>
             <div ref={this.bottomElement}></div>
         </div>
     }
