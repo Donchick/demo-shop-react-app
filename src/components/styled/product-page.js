@@ -35,15 +35,32 @@ export const ProductBlock = styled.div`
   justify-content: space-between;
   position: relative;
   min-height: 200px;
+  
+  @media (max-width: 800px) {
+    flex-flow: column nowrap;
+    padding: 20px;
+  }
 `;
 
 export const ProductDetailsPanel = styled.div`
   width: 49%;
   position: relative;
+  
+  @media (max-width: 800px) {
+    width: 100%;
+    font-size: 14px;
+    position: relative;
+  }
 `;
 
 export const ProductImage = styled.img`
   width: 100%;
+  
+  @media (max-width: 800px) {
+    width: 100%;
+    font-size: 14px;
+    position: relative;
+  }
 `;
 
 export const ProductDescription = styled.div`
@@ -53,6 +70,12 @@ export const ProductDescription = styled.div`
   text-align: left;
   margin: 15px 0;
   line-height: 16px;
+  
+  @media (max-width: 800px) {
+    height: auto;
+    overflow: hidden;
+    margin-bottom: 35px;
+  }
 `;
 
 export const ProductName = styled.div`
@@ -62,6 +85,10 @@ export const ProductName = styled.div`
   font-weight: bold;
   padding: 5px 0 15px;
   border-bottom: 2px solid #2ec5cc;
+
+  @media (max-width: 800px) {
+    padding: 15px 0;
+  }
 `;
 
 export const OutOfStockCaption = styled.p`
@@ -77,6 +104,10 @@ export const ProductPrice = styled.span`
   bottom: 0;
   left: 0;
   line-height: 35px;
+  
+  @media (max-width: 800px) {
+    position: static;
+  }
 `;
 
 export const CurrencyIcon = styled.i`
@@ -95,6 +126,10 @@ export const BuyProductButton = styled(Button)`
   right: 0;
   line-height: 35px;
   text-align: center;
+  
+  @media (max-width: 800px) {
+    float: right;
+  }
 `;
 
 export const ManagerLink = styled.a`

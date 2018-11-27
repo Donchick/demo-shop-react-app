@@ -21,6 +21,10 @@ export const ModalDialog = styled.div`
   box-shadow: 0px 2px 10px rgba(0,0,0, 0.3);
   font-family: PT Sans;
   z-index: 11111111;
+  
+  @media (max-width: 800px) {
+    width: 100%;
+  }
 `;
 
 export const ModalDialogHeader = styled.div`
@@ -41,4 +45,9 @@ export const ModalDialogBody = styled.div`
   text-align: right;
   padding: 0 60px;
   box-shadow: inset 0px 2px 0px rgba(0,0,0, 0.1);
+  
+  @media (max-width: 800px) {
+    height: auto;
+    padding: 0 30px;
+  }
 `;

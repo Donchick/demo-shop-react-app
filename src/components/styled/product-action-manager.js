@@ -5,6 +5,11 @@ import {Button} from './button';
 export const ProductActionForm = styled.form`
   width: 680px;
   height: 730px;
+  
+  @media (max-width: 800px) {
+    width: 100%;
+    height: 850px;
+  }
 `;
 
 export const ProductActionFormContent = styled.div`
@@ -13,10 +18,19 @@ export const ProductActionFormContent = styled.div`
   justify-content: space-between;
   width: 100%;
   height: calc(100% - 70px);
+  
+  @media (max-width: 800px) {
+    flex-flow: column nowrap;
+    justify-content: none;
+  }
 `;
 
 export const BlockContainer = styled.div`
   width: 48%;
+  
+  @media (max-width: 800px) {
+    width: 100%;
+  }
 `;
 
 export const Block = styled.div`
@@ -85,12 +99,21 @@ export const ImagePreview = styled.img`
   margin-top: 10px;
   border: 1px solid #ffffff;
   max-height: 180px;
+  
+  @media (max-width: 800px) {
+    width: auto;
+  }
 `;
 
 export const SubmitButton = styled(Button)`
   position: absolute;
   bottom: 30px;
   right: 30px;
+  
+  @media (max-width: 800px) {
+    bottom: 20px;
+    right: 60px;
+  }
 `;
 
 export const ErrorMessage = styled.p`
