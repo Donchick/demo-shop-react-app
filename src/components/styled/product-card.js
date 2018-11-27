@@ -3,7 +3,7 @@ import { Button } from './button';
 
 export const ProductCardElement = styled.div`
   vertical-align: top;
-  height: 534px;
+  height: 530px;
   background: #fdfdfd url(${process.env.PUBLIC_URL + '/assets/images/product-tile-background.png'});
   text-align: right;
   font-size: 0;
@@ -26,22 +26,33 @@ export const ProductCardElement = styled.div`
 
 export const ProductImageContainer = styled.div`
     position: relative;
+    max-height: 320px;
+    
+    @media (max-width: 1000px) {
+      max-height: 350px;
+    }
+    
+    @media (max-width: 800px) {
+      height: auto;
+    }
 `;
 
 export const ProductImage = styled.img`
     width: 100%;
+    max-height: 320px;
+    
+    @media (max-width: 1000px) {
+      max-height: 350px;
+    }
 `;
 
 export const ProductDetailsContainer = styled.div`
   margin: 0 20px;
-  height: 208px;
   text-align: center;
-  @media (max-width: 1000px) {
-    height: 180px;
-  }
+  display: flex;
+  flex-flow: column nowrap;
     
   @media (max-width: 800px) {
-    height: auto;
     padding-bottom: 55px;
   }
 `;
@@ -57,11 +68,12 @@ export const ProductName = styled.p`
 `;
 
 export const ProductDescription = styled.p`
-  height: 135px;
-  overflow: auto;
+  min-height: calc(100% - 135px);
+  overflow-y: auto;
+  overflow-x: hidden;
   font-size: 14px;
   text-align: left;
-  margin: 15px 0;
+  margin: 15px 0 50px;
   line-height: 18px;
   
   @media (max-width: 800px) {
@@ -73,7 +85,7 @@ export const ProductPrice = styled.span`
   font-size: 24px;
   font-weight: bold;
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   left: 20px;
   line-height: 35px;
 `;
@@ -84,7 +96,7 @@ export const CurrencySymbol = styled.i`
 
 export const ProductCardButton = styled(Button)`
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   max-width: 90px;
   width: 25%;
   right: ${(props) => props.left ? '120px;' : '20px;'}

@@ -40,7 +40,7 @@ export const RadioButtonLabel = styled.label`
         transition: all .2s;
     }
     
-    ${RadioButton}:checked + & {
+    ${RadioButton}:checked + && {
         color: #2e8879;
     }
     

@@ -102,9 +102,9 @@ class ProductPage extends Component {
       <NavigationBar>
         <BackLink><CustomLink to='/'>Back</CustomLink></BackLink>
         <CategoryPathLink>
-          Category: <CustomLink to={{ pathname: '/', search:`category=${this.props.product.categoryId}&gender=All`}}>{product.gender}</CustomLink>
+          Category: <CustomLink to={{ pathname: '/', search:`category=$gender=${this.props.product.gender}&category=${allCategory.id}`}}>{product.gender}</CustomLink>
           /
-          <CustomLink to={{ pathname: '/', search:`gender=${this.props.product.gender}&category=${allCategory.id}`}}>{category}</CustomLink></CategoryPathLink>
+          <CustomLink to={{ pathname: '/', search:`category=${this.props.product.categoryId}&gender=All`}}>{category}</CustomLink></CategoryPathLink>
       </NavigationBar>
       { showProduct ? <ProductBlock>
         {showLoadingOverlay ? <LoadingOverlay/> : ''}

@@ -92,7 +92,7 @@ class ProductsFilter extends Component {
                         <GenderFilter>
                             <FilterTitle bottomPadding>Gender:</FilterTitle><br/>
                             {[...Object.values(Gender), 'All'].map((genderKind) => (
-                                <span key={genderKind}>
+                                <span key={`${genderKind}-${filter.gender === genderKind}`}>
                                   <RadioButton defaultChecked={filter.gender === genderKind} type='radio' name='gender' value={genderKind} id={`filter-${genderKind}`} onClick={this.handleChange.bind(this)}/>
                                   <RadioButtonLabel htmlFor={`filter-${genderKind}`}>{genderKind}</RadioButtonLabel>
                               </span>))}
