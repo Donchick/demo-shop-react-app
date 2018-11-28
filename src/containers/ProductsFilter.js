@@ -48,9 +48,9 @@ class ProductsFilter extends Component {
     }
 
     componentWillReceiveProps(nextState) {
-      if (nextState.filter) {
-        this.setState({filter: nextState.filter});
-      }
+        if (nextState.filter) {
+            this.setState({filter: nextState.filter});
+        }
     }
 
     handleFilterBoxButton() {
@@ -80,29 +80,59 @@ class ProductsFilter extends Component {
         const filter = this.props.filter;
 
         return <FilterContainer>
-            <FilterBoxButton onClick={this.handleFilterBoxButton.bind(this)}>Filter Options</FilterBoxButton>
+            <FilterBoxButton onClick={this.handleFilterBoxButton.bind(this)}>
+                Filter Options
+            </FilterBoxButton>
             <FilterOptionsBox open={this.state.filterOptionBoxOpen}>
                 <Filters>
                     <ProductParamFilters>
                         <Filter>
-                            <FilterTitle bottomPadding>Availability:</FilterTitle><br/>
-                            <Checkbox name='availableOnly' type='checkbox' id='checkbox' onChange={this.handleChange.bind(this)}></Checkbox>
-                            <CheckboxLabel htmlFor='checkbox'>Available Only</CheckboxLabel>
+                            <FilterTitle bottomPadding>
+                                Availability:
+                            </FilterTitle><br/>
+                            <Checkbox name='availableOnly'
+                                      type='checkbox'
+                                      id='checkbox'
+                                      onChange={this.handleChange.bind(this)}>
+                            </Checkbox>
+                            <CheckboxLabel htmlFor='checkbox'>
+                                Available Only
+                            </CheckboxLabel>
                         </Filter>
                         <GenderFilter>
-                            <FilterTitle bottomPadding>Gender:</FilterTitle><br/>
-                            {[...Object.values(Gender), 'All'].map((genderKind) => (
-                                <span key={`${genderKind}-${filter.gender === genderKind}`}>
-                                  <RadioButton defaultChecked={filter.gender === genderKind} type='radio' name='gender' value={genderKind} id={`filter-${genderKind}`} onClick={this.handleChange.bind(this)}/>
-                                  <RadioButtonLabel htmlFor={`filter-${genderKind}`}>{genderKind}</RadioButtonLabel>
+                            <FilterTitle bottomPadding>
+                                Gender:
+                            </FilterTitle><br/>
+                            {[...Object.values(Gender), 'All']
+                                .map((genderKind) => (
+                                <span key={`${genderKind}-
+                                      ${filter.gender === genderKind}`}>
+                                    <RadioButton defaultChecked=
+                                                     {filter.gender === genderKind}
+                                                 type='radio'
+                                                 name='gender'
+                                                 value={genderKind}
+                                                 id={`filter-${genderKind}`}
+                                                 onClick={this.handleChange.bind(this)}/>
+                                    <RadioButtonLabel
+                                        htmlFor={`filter-${genderKind}`}>
+                                        {genderKind}
+                                    </RadioButtonLabel>
                               </span>))}
                         </GenderFilter>
                         <CategoryFilter>
                             <FilterTitle>Category:</FilterTitle>
-                            <SelectList name='category' green onChange={this.handleChange.bind(this)} value={Number(filter.category || allCategory.id)}>
+                            <SelectList name='category'
+                                        green
+                                        onChange={this.handleChange.bind(this)}
+                                        value={Number(filter.category ||
+                                            allCategory.id)}>
                                 {[allCategory, ...this.props.categories]
                                     .map((category) => (
-                                    <option value={category.id} key={category.id}>{category.name}</option>
+                                    <option value={category.id}
+                                            key={category.id}>
+                                        {category.name}
+                                    </option>
                                 ))}
                             </SelectList>
                         </CategoryFilter>
@@ -110,11 +140,21 @@ class ProductsFilter extends Component {
                     <ProductRangeFilters>
                         <RangeFilter>
                             <RangeFilterTitle>Rating:</RangeFilterTitle>
-                            <RatingRangeSlider name='rating' min={0} max={5} step={1} onChange={this.handleChange.bind(this)}/>
+                            <RatingRangeSlider name='rating'
+                                               min={0}
+                                               max={5}
+                                               step={1}
+                                               onChange=
+                                                   {this.handleChange.bind(this)}/>
                         </RangeFilter>
                         <PriceFilter>
                             <RangeFilterTitle>Price:</RangeFilterTitle>
-                            <PriceRangeSlider name='price' min={0} max={1000} step={1} onChange={this.handleChange.bind(this)}/>
+                            <PriceRangeSlider name='price'
+                                              min={0}
+                                              max={1000}
+                                              step={1}
+                                              onChange=
+                                                  {this.handleChange.bind(this)}/>
                         </PriceFilter>
                     </ProductRangeFilters>
                 </Filters>

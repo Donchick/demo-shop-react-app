@@ -1,4 +1,7 @@
-import { USER_LOGGED_IN, LOGIN_FAILED, USER_LOGGED_OUT, LOGIN_IN_PROCESS } from '../constants/auth-actions';
+import { USER_LOGGED_IN,
+         LOGIN_FAILED,
+         USER_LOGGED_OUT,
+         LOGIN_IN_PROCESS } from '../constants/auth-actions';
 
 const auth = (state = {}, action) => {
     switch (action.type) {

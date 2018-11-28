@@ -15,8 +15,10 @@ export const SelectList = styled.select`
     
     background: ${(props) => props.green ? '#2e8879' : '#ffffff'};
     background-image: ${(props) => props.green ? 
-        `url(${process.env.PUBLIC_URL + '/assets/images/white-select-link.png'})` :
-        `url(${process.env.PUBLIC_URL + '/assets/images/green-select-link.png'})`} ;
+        `url(${process.env.PUBLIC_URL + 
+            '/assets/images/white-select-link.png'})` :
+        `url(${process.env.PUBLIC_URL + 
+            '/assets/images/green-select-link.png'})`} ;
     color: ${(props) => props.green ? '#fff' : '#000'};
     background-repeat: no-repeat;
     background-position: 95% 50%;

@@ -1,27 +1,27 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ModalWrapper from './modal-wrapper';
 import ProductActionManager from '../containers/ProductActionManager';
 
 class ProductActionModal extends Component {
-  constructor (props) {
-    super(props);
+    constructor (props) {
+        super(props);
 
-    this.modal = React.createRef();
-  }
+        this.modal = React.createRef();
+    }
 
-  open () {
-    this.modal.current.open();
-  }
+    open () {
+        this.modal.current.open();
+    }
 
-  close () {
-    this.modal.current.close();
-  }
+    close () {
+        this.modal.current.close();
+    }
 
-  render () {
-    return <ModalWrapper ref={this.modal} title={this.props.title}>
-      <ProductActionManager {...this.props}/>
-    </ModalWrapper>
-  }
+    render () {
+        return <ModalWrapper ref={this.modal} title={this.props.title}>
+            <ProductActionManager {...this.props}/>
+        </ModalWrapper>
+    }
 }
 
 export default ProductActionModal;

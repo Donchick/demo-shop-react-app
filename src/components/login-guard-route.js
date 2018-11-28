@@ -3,7 +3,8 @@ import { Route, Redirect } from 'react-router';
 
 const LoginAuthGuard = ({component: Component, ...rest}) => (
     <Route {...rest} render={(props) => (
-        localStorage.getItem('user') ? <Component {...props}/> : <Redirect to='/login'/>
+        localStorage.getItem('user') ?
+            <Component {...props}/> : <Redirect to='/login'/>
     )}/>
 );
 

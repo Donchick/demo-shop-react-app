@@ -1,4 +1,4 @@
-import {allCategory} from "./categories";
+import { allCategory } from "./categories";
 
 export const UPDATE_FILTER = 'UPDATE_FILTER';
 

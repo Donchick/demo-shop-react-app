@@ -3,13 +3,18 @@ import ProductsManager from './ProductsManager';
 import Login from './Login';
 import { Router, Route, Switch, Redirect } from 'react-router';
 import LoginGuardRoute from '../components/login-guard-route';
-import {history} from "../helpers/history";
+import { history } from "../helpers/history";
 import { CommonLayout } from '../components/styled/common-layout';
 import connect from "react-redux/es/connect/connect";
 import { logout } from '../actions/authentication';
 import PropTypes from 'prop-types';
 import authService from '../services/authentication';
-import { Header, Footer, HeaderMenu, Main, BagIcon, LogoutIcon } from '../components/styled/app';
+import { Header,
+         Footer,
+         HeaderMenu,
+         Main,
+         BagIcon,
+         LogoutIcon } from '../components/styled/app';
 import ErrorModal from '../components/error-modal';
 import ProductPage from './ProductPage';
 import NotFound from '../components/not-found';
@@ -69,9 +74,13 @@ class App extends Component {
                 </Header>
                 <Main>
                     <Switch>
-                        <LoginGuardRoute exact path="/" component={ProductsManager} />
-                        { this.state.user && this.state.user.login ? <Redirect from="/login" to="/"/> : <Route path="/login" component={Login} /> }
-                        <LoginGuardRoute exact path="/product/:id" component={ProductPage} />
+                        <LoginGuardRoute exact path="/"
+                                         component={ProductsManager} />
+                        { this.state.user && this.state.user.login ?
+                                <Redirect from="/login" to="/"/> :
+                                <Route path="/login" component={Login} /> }
+                        <LoginGuardRoute exact path="/product/:id"
+                                         component={ProductPage} />
                         <Route component={ NotFound } />
                     </Switch>
                 </Main>

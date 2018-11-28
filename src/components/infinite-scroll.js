@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import LoadingOverlay from './loading-overlay';
 import PropTypes from 'prop-types';
 import { LoadingOverlayContainer } from './styled/infinite-scroll';
@@ -29,7 +29,9 @@ class InfiniteScroll extends Component {
     }
 
     scrollHandler (e) {
-        if (!this.bottomElement.current || this.bottomElement.current.offsetTop > window.innerHeight + window.scrollY) {
+        if (!this.bottomElement.current ||
+            this.bottomElement.current.offsetTop >
+            (window.innerHeight + window.scrollY)) {
             return true;
         }
 

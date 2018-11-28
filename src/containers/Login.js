@@ -26,7 +26,8 @@ function validate(userName, password) {
     return {
         userName: userName.length === 0 ? 'Login is required.' :
             !/^[A-Za-z]{3,}$/.test(userName) &&
-            'Login must contain English letters only and should be more than 3-symbols length.',
+            'Login must contain English letters only '
+            + 'and should be more than 3-symbols length.',
         password: password.length === 0 && 'Password is required.',
     };
 }
@@ -110,11 +111,16 @@ class Login extends Component {
                     Login to "Demo Shop"
                 </LoginBlockHeader>
                 <LoginForm onSubmit={this.handleLoginFormSubmit.bind(this)}>
-                    { this.state.loginFailed ? <ErrorMessage global>Wrong login or password!</ErrorMessage> : '' }
+                    { this.state.loginFailed ?
+                        <ErrorMessage global>
+                            Wrong login or password!
+                        </ErrorMessage> : '' }
                     <InputBlock>
                         <p>Your Login:</p>
                         { errors['userName'] && shouldMarkError('userName') ?
-                            <ErrorMessage>{errors['userName']}</ErrorMessage> : '' }
+                            <ErrorMessage>
+                                {errors['userName']}
+                            </ErrorMessage> : '' }
                         <UserNameInput invalid={shouldMarkError('userName')}
                                        onBlur={this.handleBlur.bind(this)}
                                        name='userName'
@@ -124,7 +130,9 @@ class Login extends Component {
                     <InputBlock>
                         <p>Your Password:</p>
                         { errors['password'] && shouldMarkError('password') ?
-                            <ErrorMessage>{errors['password']}</ErrorMessage> : '' }
+                            <ErrorMessage>
+                                {errors['password']}
+                            </ErrorMessage> : '' }
                         <PasswordInput invalid={shouldMarkError('password')}
                                        onBlur={this.handleBlur.bind(this)}
                                        type='password'

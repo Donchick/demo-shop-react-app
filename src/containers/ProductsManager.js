@@ -19,11 +19,14 @@ import { DEFAULT_FILTER } from '../constants/filter';
 const filterProducts = (products, filter) => {
     return products.filter((product) =>
         (product.name.toLowerCase().indexOf(filter.name.toLowerCase()) >= 0)
-        && (product.rating * 1 >= filter.rating.from * 1 && product.rating * 1 <= filter.rating.to * 1)
-        && (product.cost >= filter.price.from && product.cost <= filter.price.to)
+        && (product.rating * 1 >= filter.rating.from * 1 &&
+            product.rating * 1 <= filter.rating.to * 1)
+        && (product.cost >= filter.price.from &&
+            product.cost <= filter.price.to)
         && (filter.gender === 'All' || product.gender === filter.gender)
         && (!filter.availableOnly || product.count > product.soldCount)
-        && (filter.category === allCategory.id || product.categoryId === filter.category));
+        && (filter.category === allCategory.id ||
+            product.categoryId === filter.category));
 };
 
 const _parseUrl = (query) => {
@@ -35,7 +38,8 @@ const _parseUrl = (query) => {
     const result = {};
     paramsArray.forEach((param) => {
         const regExpResult = regExp.exec(param);
-        result[regExpResult[1]] = regExpResult[1] === 'category' ? regExpResult[2] * 1 : regExpResult[2];
+        result[regExpResult[1]] = regExpResult[1] === 'category' ?
+            regExpResult[2] * 1 : regExpResult[2];
     });
     
     return result;
@@ -114,12 +118,22 @@ class ProductsManager extends Component {
 
         return <div>
             <TopContainer space-between={this.state.user.isAdmin}>
-              {this.state.user.isAdmin ? <Button onClick={this.handleAddProductClick.bind(this)}>Add Product</Button> : ''}
-              <ProductsFilter categories={this.state.categories} filter={this.props.filter}/>
+                {this.state.user.isAdmin ?
+                    <Button onClick={this.handleAddProductClick.bind(this)}>
+                        Add Product
+                    </Button> : ''}
+                <ProductsFilter categories={this.state.categories}
+                                filter={this.props.filter}/>
             </TopContainer>
-            {this.state.products.length > 0 ? <InfiniteScroll loadMore={this.loadMoreProducts.bind(this)} allItemsLoaded={this.state.pageCount * PRODUCTS_PER_PAGE >= filteredProducts.length}>
+            {this.state.products.length > 0 ?
+                <InfiniteScroll loadMore={this.loadMoreProducts.bind(this)}
+                                allItemsLoaded=
+                                    {this.state.pageCount * PRODUCTS_PER_PAGE >=
+                                    filteredProducts.length}>
                 <ProductsList>
-                    {filteredProducts.slice(0, this.state.pageCount * PRODUCTS_PER_PAGE).map(product => (
+                    {filteredProducts
+                        .slice(0, this.state.pageCount * PRODUCTS_PER_PAGE)
+                        .map(product => (
                         <ProductCard key={product.id}
                                      product={product}
                                      showDetails={this.handleShowDetailsClick.bind(this, product.id)}
@@ -128,7 +142,9 @@ class ProductsManager extends Component {
                     ))}
                 </ProductsList>
             </InfiniteScroll>: ''}
-            <ProductActionModal ref={this.addProductModal} title='Add Product' poduct={null}/>
+            <ProductActionModal ref={this.addProductModal}
+                                title='Add Product'
+                                poduct={null}/>
         </div>
     }
 }
@@ -144,4 +160,8 @@ ProductsManager.propTypes = {
     updateFilter: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, {getProducts, removeProduct, filterProducts, getCategories, updateFilter})(ProductsManager);
+export default connect(mapStateToProps, { getProducts,
+                                          removeProduct,
+                                          filterProducts,
+                                          getCategories,
+                                          updateFilter })(ProductsManager);

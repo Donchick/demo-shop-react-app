@@ -41,21 +41,24 @@ const processFailed = (message) => ({
 export const getProducts = () => dispatch => {
     return productsService.getProducts()
         .then(productsReceived)
-        .catch(() => processFailed('There was an error while receiving products.'))
+        .catch(() =>
+            processFailed('There was an error while receiving products.'))
         .then(dispatch);
 };
 
 export const getProduct = (id) => dispatch => {
   return productsService.getProduct(id)
       .then(productReceived)
-      .catch(() => processFailed('There was an error while receiving product.'))
+      .catch(() =>
+          processFailed('There was an error while receiving product.'))
       .then(dispatch);
 };
 
 export const removeProduct = (productId) => dispatch => {
     return productsService.removeProduct(productId)
         .then(() => productWasRemoved(productId))
-        .catch(() => processFailed('There was an error while deleting product.'))
+        .catch(() =>
+            processFailed('There was an error while deleting product.'))
         .then(dispatch);
 };
 
@@ -66,7 +69,8 @@ export const updateProduct = (product) => dispatch => {
 
     return productsService.updateProduct(product)
         .then((product) => productWasUpdated(product))
-        .catch(() => processFailed('There was an error while updating product.'))
+        .catch(() =>
+            processFailed('There was an error while updating product.'))
         .then(dispatch);
 };
 

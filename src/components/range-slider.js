@@ -55,7 +55,12 @@ class RangeSlider extends Component {
     render () {
         return <SliderContainer>
             <MinMark>{this.props.min}</MinMark>
-            <FloatingMark id='leftMark' min={this.props.min} max={this.props.max} value={this.state.from}>{this.state.from}</FloatingMark>
+            <FloatingMark id='leftMark'
+                          min={this.props.min}
+                          max={this.props.max}
+                          value={this.state.from}>
+                {this.state.from}
+            </FloatingMark>
             <LeftSlider type='range'
                     value={this.state.from}
                     min={this.props.min}
@@ -70,7 +75,12 @@ class RangeSlider extends Component {
                          step={this.state.step}
                          onChange={this.changeHandler.bind(this)}
                          ref={this.toSlider}/>
-            <FloatingMark id='rightMark' min={this.props.min} max={this.props.max} value={this.state.to}>{this.state.to}</FloatingMark>
+            <FloatingMark id='rightMark'
+                          min={this.props.min}
+                          max={this.props.max}
+                          value={this.state.to}>
+                {this.state.to}
+            </FloatingMark>
             <MaxMark>{this.props.max}</MaxMark>
         </SliderContainer>
     }

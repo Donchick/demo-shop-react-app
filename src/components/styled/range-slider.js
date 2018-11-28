@@ -16,15 +16,15 @@ export const Slider = styled.input`
     background-size: 100% 2px;
     pointer-events: none;
 
-   &::-webkit-slider-thumb {
-      height: 28px;
-      width: 28px;
-      border-radius: 28px;
-      background-color: #2f897a;
-      cursor: pointer;
-      appearance: none;
-      pointer-events: all;
-   }
+    &::-webkit-slider-thumb {
+        height: 28px;
+        width: 28px;
+        border-radius: 28px;
+        background-color: #2f897a;
+        cursor: pointer;
+        appearance: none;
+        pointer-events: all;
+    }
 `;
 
 export const LeftSlider = styled(Slider)`
@@ -42,8 +42,11 @@ export const Mark = styled.span`
 `;
 
 export const FloatingMark = styled(Mark).attrs({
-    left: (props) => props.value ? `calc(${props.value * 100/(props.max - props.min)}% - ${28 * (props.value)/(props.max - props.min)}px)`: '0',
-    display: (props) => props.value * 1 === props.min || props.value * 1 === props.max ? 'none': 'inline-block'
+    left: (props) => props.value ?
+        `calc(${props.value * 100/(props.max - props.min)}% - 
+                ${28 * (props.value)/(props.max - props.min)}px)`: '0',
+    display: (props) => props.value * 1 === props.min ||
+                props.value * 1 === props.max ? 'none': 'inline-block'
 })`
     left: ${(props) => props.left};
     display: ${(props) => props.display};

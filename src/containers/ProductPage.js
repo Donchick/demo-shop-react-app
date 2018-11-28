@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getProduct, updateProduct } from '../actions/products';
 import { getCategories } from '../actions/categories';
@@ -27,109 +27,144 @@ import { NavigationBar,
          ProductQuantityCaption } from '../components/styled/product-page';
 
 const mapStateToProps = (state) => ({
-  product: state.product,
-  categories: state.categories,
-  activeProcess: state.activeProcess
+    product: state.product,
+    categories: state.categories,
+    activeProcess: state.activeProcess
 });
 
 class ProductPage extends Component {
-  constructor (props) {
-    super(props);
+    constructor (props) {
+        super(props);
 
-    this.state = {
-      id: props.match.params.id,
-      categories: props.categories || [],
-      product: props.product || {},
-      activeProcess: false,
-      user: {}
-    };
+        this.state = {
+            id: props.match.params.id,
+            categories: props.categories || [],
+            product: props.product || {},
+            activeProcess: false,
+            user: {}
+        };
 
-    this.updateProductModal = React.createRef();
-  }
-
-  componentDidMount () {
-    this.props.getProduct(this.state.id);
-    this.props.getCategories();
-    const user = authService.getUser();
-    if (user) {
-      this.setState({user: user});
-    }
-  }
-
-  componentWillReceiveProps(nextState) {
-    if (nextState.product) {
-      this.setState({
-        product: nextState.product,
-        activeProcess: false
-      });
-      this.updateProductModal.current.close();
-    }
-    if (nextState.categories) {
-      this.setState({
-        categories: nextState.categories
-      });
-    }
-  }
-
-  handleEditClick () {
-    this.updateProductModal.current.open();
-  }
-
-  handleAddMoreClick () {
-    const product = this.state.product;
-    product.count += 5;
-    this.props.updateProduct(product);
-  }
-
-  handleBuyClick () {
-    const product = this.state.product;
-    product.count -= 1;
-    this.props.updateProduct(product);
-  }
-
-  render () {
-    const showProduct = this.props.product.id;
-    const showLoadingOverlay = this.props.activeProcess;
-    const product = this.props.product;
-    const isAdmin = this.state.user.isAdmin;
-    const outOfStock = product.soldCount >= product.count;
-    let category = '';
-    if (this.props.categories.length > 0 && product.categoryId !== undefined) {
-      category = this.props.categories.find(({id}) => id === product.categoryId).name;
+        this.updateProductModal = React.createRef();
     }
 
-    return <div>
-      <NavigationBar>
-        <BackLink><CustomLink to='/'>Back</CustomLink></BackLink>
-        <CategoryPathLink>
-          Category: <CustomLink to={{ pathname: '/', search:`category=$gender=${this.props.product.gender}&category=${allCategory.id}`}}>{product.gender}</CustomLink>
-          /
-          <CustomLink to={{ pathname: '/', search:`category=${this.props.product.categoryId}&gender=All`}}>{category}</CustomLink></CategoryPathLink>
-      </NavigationBar>
-      { showProduct ? <ProductBlock>
-        {showLoadingOverlay ? <LoadingOverlay/> : ''}
-        <ProductDetailsPanel>
-          <ProductImage src={product.image}/>
-          <ProductRatingContainer>
-            {[1,2,3,4,5].map((score) =>
-                product.rating >= score ? <GoldRatingStar key={score}/> : <RatingStar key={score}/>
-            )}
-          </ProductRatingContainer>
-        </ProductDetailsPanel>
-        <ProductDetailsPanel>
-          <ProductName>{product.name}</ProductName>
-          <ProductDescription>
-            {product.description}
-            { isAdmin ? <p>You can <ManagerLink onClick={this.handleAddMoreClick.bind(this)}>add 5 more</ManagerLink>. You can also <ManagerLink onClick={this.handleEditClick.bind(this)}>edit</ManagerLink> them</p> : '' }
-          </ProductDescription>
-          { outOfStock ? <OutOfStockCaption>This item is out of stock.</OutOfStockCaption> : ''}
-          <ProductPrice><CurrencyIcon>$</CurrencyIcon>{product.cost}{outOfStock ? '' : <ProductQuantityCaption>({product.count - product.soldCount} items left)</ProductQuantityCaption>}</ProductPrice>
-          <BuyProductButton onClick={this.handleBuyClick.bind(this)} disabled={outOfStock}>Buy</BuyProductButton>
-        </ProductDetailsPanel>
-      </ProductBlock> : '' }
-      <ProductActionModal ref={this.updateProductModal} product={product} title='Update Product'/>
-    </div>
-  }
+    componentDidMount () {
+        this.props.getProduct(this.state.id);
+        this.props.getCategories();
+        const user = authService.getUser();
+        if (user) {
+            this.setState({user: user});
+        }
+    }
+
+    componentWillReceiveProps(nextState) {
+        if (nextState.product) {
+            this.setState({
+                product: nextState.product,
+                activeProcess: false
+            });
+            this.updateProductModal.current.close();
+        }
+        if (nextState.categories) {
+            this.setState({
+                categories: nextState.categories
+            });
+        }
+    }
+
+    handleEditClick () {
+        this.updateProductModal.current.open();
+    }
+
+    handleAddMoreClick () {
+        const product = this.state.product;
+        product.count += 5;
+        this.props.updateProduct(product);
+    }
+
+    handleBuyClick () {
+        const product = this.state.product;
+        product.count -= 1;
+        this.props.updateProduct(product);
+    }
+
+    render () {
+        const showProduct = this.props.product.id;
+        const showLoadingOverlay = this.props.activeProcess;
+        const product = this.props.product;
+        const isAdmin = this.state.user.isAdmin;
+        const outOfStock = product.soldCount >= product.count;
+        const categoryLink = `category=$gender=${this.props.product.gender}&
+            category=${allCategory.id}`;
+        const genderLink = `category=${this.props.product.categoryId}
+            &gender=All`;
+        let category = '';
+        if (this.props.categories.length > 0 &&
+            product.categoryId !== undefined) {
+            category = this.props.categories.find(({id}) =>
+                id === product.categoryId).name;
+        }
+
+        return <div>
+            <NavigationBar>
+                <BackLink><CustomLink to='/'>Back</CustomLink></BackLink>
+                <CategoryPathLink>
+                    Category:
+                    <CustomLink to={{ pathname: '/', search: categoryLink}}>
+                        {product.gender}
+                    </CustomLink>
+                    /
+                    <CustomLink to={{ pathname: '/', search: genderLink}}>
+                        {category}
+                    </CustomLink>
+                </CategoryPathLink>
+            </NavigationBar>
+            { showProduct ? <ProductBlock>
+                {showLoadingOverlay ? <LoadingOverlay/> : ''}
+                <ProductDetailsPanel>
+                    <ProductImage src={product.image}/>
+                    <ProductRatingContainer>
+                        {[1,2,3,4,5].map((score) =>
+                            product.rating >= score ?
+                                <GoldRatingStar key={score}/> :
+                                <RatingStar key={score}/>
+                        )}
+                    </ProductRatingContainer>
+                </ProductDetailsPanel>
+                <ProductDetailsPanel>
+                    <ProductName>{product.name}</ProductName>
+                    <ProductDescription>
+                        {product.description}
+                        { isAdmin ? <p>You can
+                            <ManagerLink
+                                onClick={this.handleAddMoreClick.bind(this)}>
+                                add 5 more</ManagerLink>.
+                            You can also
+                            <ManagerLink
+                                onClick={this.handleEditClick.bind(this)}>
+                                edit
+                            </ManagerLink> them</p> : '' }
+                    </ProductDescription>
+                    { outOfStock ?
+                        <OutOfStockCaption>
+                            This item is out of stock.
+                        </OutOfStockCaption> : ''}
+                    <ProductPrice>
+                        <CurrencyIcon>$</CurrencyIcon>
+                        {product.cost}{outOfStock ? '' :
+                        <ProductQuantityCaption>
+                            ({product.count - product.soldCount} items left)
+                        </ProductQuantityCaption>}
+                    </ProductPrice>
+                    <BuyProductButton onClick={this.handleBuyClick.bind(this)}
+                                      disabled={outOfStock}>
+                        Buy
+                    </BuyProductButton>
+                </ProductDetailsPanel>
+            </ProductBlock> : '' }
+            <ProductActionModal ref={this.updateProductModal}
+                                product={product} title='Update Product'/>
+        </div>
+    }
 };
 
 ProductPage.propTypes = {
@@ -139,4 +174,6 @@ ProductPage.propTypes = {
 };
 
 
-export default connect(mapStateToProps, {getProduct, updateProduct, getCategories})(ProductPage);
+export default connect(mapStateToProps, { getProduct,
+                                          updateProduct,
+                                          getCategories})(ProductPage);
